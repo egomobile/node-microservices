@@ -1,0 +1,15 @@
+{
+    "extends": "@egodigital/tsconfig",
+    "compilerOptions": {
+        "outDir": "lib",
+        "rootDir": "src",
+        "target": "es2019",
+        "lib": [
+            "es2019"
+        ],
+        "esModuleInterop": true,
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    }
+}
