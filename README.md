@@ -89,3 +89,7 @@ myEventPublisher.publish({
     bar: 42
 });
 ```
+
+## Documentation
+
+The API documentation can be found [here](https://egodigital.github.io/node-microservices/).
