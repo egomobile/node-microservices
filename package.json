@@ -1,14 +1,15 @@
 {
     "name": "@egodigital/microservices",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Shared library for microservices, written for Node.js",
     "author": "e.GO Digital GmbH, Aachen, Germany",
     "license": "LGPL-3.0",
     "main": "lib/index.js",
     "private": false,
     "files": [
-        "lib",
+        "CHANGELOG.md",
         "index.d.ts",
+        "lib",
         "!lib/**/*.map"
     ],
     "bugs": {

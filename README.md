@@ -72,7 +72,7 @@ myEventListener.onMessage = (context) => {
 myEventListener.listen();
 ```
 
-#### Listener
+#### Publisher
 
 ```typescript
 import { stan } from '@egodigital/microservices';
