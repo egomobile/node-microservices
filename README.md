@@ -14,19 +14,37 @@ npm install --save @egodigital/microservices
 
 ## Usage
 
-#### Constants
+### Auth
 
-| Name | Description | Example |
-|-------------------|-----------------------------------------------------------------------------|------------------------------------|
-| `JWT_SECRET`      | The secret for signing and validating JWT.                                  | `mySecretJWTSecret`                |
-| `NATS_CLUSTER_ID` | The name of the cluster, that contains this and the other microservices.    | `ego-microservice-cluster`         |
-| `NATS_GROUP`      | The name of the pod group / kubernetes deployment.                          | `my-service-or-deployment`         |
-| `NATS_URL`        | The URL to the NATS server.                                                 | `http://my-nats-service:4222`      |
-| `POD_NAME`        | The name of the pod. This should come as imported metadata from Kubernetes. | `my-service-or-deployment-XCSGBxV` |
+#### Passwords
 
-### Express
+```typescript
+import { checkPassword, checkPasswordSync, hashPassword, hashPasswordSync } from '@egodigital/microservices';
+
+const hash1 = await hashPassword('test');
+const matches2 = await checkPassword('test', hash1);
+
+const hash2 = hashPasswordSync('test');
+const matches2 = checkPasswordSync('test', hash2);
+```
 
 #### JWT
+
+```typescript
+import { signJWT, verifyJWT } from '@egodigital/microservices';
+
+interface IUserToken {
+    uuid: string;
+}
+
+const jwt = signJWT({
+    uuid: 'cb246b52-b8cd-4916-bfad-6bfc43845597'
+});
+
+const decodedToken = verifyJWT<IUserToken>(jwt);
+```
+
+##### Express
 
 ```typescript
 import express from 'express';
@@ -43,6 +61,17 @@ app.listen(4242, () => {
     console.log('Service is listening ...');
 });
 ```
+
+### Constants
+
+| Name              | Description                                                                 | Example                            |
+|-------------------|-----------------------------------------------------------------------------|------------------------------------|
+| `BCRYPT_ROUNDS`   | The number of rounds for bcrypt hashing. Default: `10`                      | `12`                               |
+| `JWT_SECRET`      | The secret for signing and validating JWT.                                  | `mySecretJWTSecret`                |
+| `NATS_CLUSTER_ID` | The name of the cluster, that contains all microservices.                   | `my-cluster`                       |
+| `NATS_GROUP`      | The name of the pod group / Kubernetes deployment.                          | `my-service-or-deployment`         |
+| `NATS_URL`        | The URL to the NATS server.                                                 | `http://my-nats-service:4222`      |
+| `POD_NAME`        | The name of the pod. This should come as imported metadata from Kubernetes. | `my-service-or-deployment-xcsgbxv` |
 
 ### NATS
 

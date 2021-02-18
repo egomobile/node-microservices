@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
+import { Nilable, Optional } from '@egodigital/types';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { JWT_SECRET } from './constants';
-import { Nilable } from '@egodigital/types';
+import { JWT_SECRET } from '../constants';
 
 /**
  * Options for 'withJWT()' function.
@@ -42,6 +42,44 @@ export interface IWithJWTOptions {
     setupToken?: (token: any, request: Request, response: Response) => any;
 }
 
+function getSecret() {
+    if (!JWT_SECRET?.length) {
+        throw new Error('No JWT_SECRET defined');
+    }
+
+    return JWT_SECRET;
+}
+
+/**
+ * Creates a JWT from an object.
+ *
+ * @param {string} decodedToken The token as object.
+ * @param {Optional<SignOptions>} [options] Additional and custom sign options.
+ *
+ * @returns {string} The JWT.
+ */
+export function signJWT(decodedToken: any, options?: Optional<SignOptions>): string {
+    return jwt.sign(decodedToken, getSecret(), options);
+}
+
+/**
+ * Verifies a JWT and returns it decoded version, if succeeded.
+ *
+ * @param {string} token The token as string.
+ *
+ * @returns {TToken|false} The decoded token, or (false), if verification failed.
+ */
+export function verifyJWT<TToken extends any = any>(token: string): TToken | false {
+    try {
+        const decodedToken = jwt.verify(token, getSecret());
+        if (decodedToken) {
+            return decodedToken as any;
+        }
+    } catch { /* ignore */ }
+
+    return false;
+}
+
 /**
  * Creates a new Express middleware, that checks for a valid JWT.
  *
@@ -50,10 +88,6 @@ export interface IWithJWTOptions {
  * @returns {RequestHandler} The new middleware.
  */
 export function withJWT(options?: Nilable<IWithJWTOptions>): RequestHandler {
-    if (!JWT_SECRET?.length) {
-        throw new Error('No JWT_SECRET defined');
-    }
-
     let onUnauthorized = options?.onUnauthorized;
     if (!onUnauthorized) {
         onUnauthorized = (req, resp) => resp.status(401).json({
@@ -80,7 +114,7 @@ export function withJWT(options?: Nilable<IWithJWTOptions>): RequestHandler {
             if (authorization?.startsWith('Bearer ')) {
                 const bearer = authorization.substr(7);
 
-                const token = jwt.verify(bearer, JWT_SECRET!);
+                const token = jwt.verify(bearer, getSecret());
                 if (token) {
                     await Promise.resolve(
                         setupToken!(token, request, response)

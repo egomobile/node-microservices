@@ -17,8 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import nats from 'node-nats-streaming';
-import { Stan } from 'node-nats-streaming';
+import nats, { Stan } from 'node-nats-streaming';
 import { Nilable } from '@egodigital/types';
 import { NATS_CLUSTER_ID, NATS_URL, POD_NAME } from '../constants';
 
@@ -47,17 +46,21 @@ export class NatsClient {
      * @returns {Promise<Stan>} The promise with the base client.
      */
     public connect(): Promise<Stan> {
+        if (!NATS_URL?.length) {
+            throw new Error('No NATS_URL defined');
+        }
+
+        if (!NATS_CLUSTER_ID?.length) {
+            throw new Error('No NATS_CLUSTER_ID defined');
+        }
+
+        if (!POD_NAME?.length) {
+            throw new Error('No POD_NAME defined');
+        }
+
         return new Promise<Stan>((resolve, reject) => {
             try {
-                if (!NATS_CLUSTER_ID?.length) {
-                    throw new Error('No NATS_CLUSTER_ID defined');
-                }
-
-                if (!POD_NAME?.length) {
-                    throw new Error('No POD_NAME defined');
-                }
-
-                const newClient = nats.connect(NATS_CLUSTER_ID, POD_NAME, {
+                const newClient = nats.connect(NATS_CLUSTER_ID!, POD_NAME!, {
                     url: NATS_URL
                 });
 
@@ -83,6 +86,7 @@ export class NatsClient {
         // is terminated
         this.client.once('close', () => process.exit());
 
+        // try to close connection, if process closes
         process.once('exit', () => this.tryClose());
         process.once('SIGINT', () => this.tryClose());
         process.once('SIGUSR1', () => this.tryClose());

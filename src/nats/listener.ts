@@ -16,8 +16,8 @@
  */
 
 import { Message, Stan, Subscription, SubscriptionOptions } from 'node-nats-streaming';
-import { NATS_GROUP } from '../constants';
 import { NatsClient, stan } from './client';
+import { NATS_GROUP } from '../constants';
 
 /**
  * Context for an 'onMessage' event.

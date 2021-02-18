@@ -1,5 +1,3 @@
-/* eslint-disable spaced-comment */
-
 /**
  * This file is part of the @egodigital/microservices distribution.
  * Copyright (c) e.GO Digital GmbH, Aachen, Germany (https://www.e-go-digital.com/)
@@ -17,8 +15,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/// <reference path="../index.d.ts" />
-
-export * from './auth';
-export * from './constants';
-export * from './nats';
+export * from './jwt';
+export * from './password';

@@ -16,6 +16,11 @@
  */
 
 /**
+ * The number of rounds for bcrypt hashing.
+ */
+export const BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS?.trim();
+
+/**
  * The secret for signing and validating JWT.
  */
 export const JWT_SECRET = process.env.JWT_SECRET?.trim();
