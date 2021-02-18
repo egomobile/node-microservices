@@ -20,4 +20,5 @@
 /// <reference path="../index.d.ts" />
 
 export * from './constants';
+export * from './express';
 export * from './nats';

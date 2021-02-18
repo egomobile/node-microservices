@@ -1,6 +1,6 @@
 {
     "name": "@egodigital/microservices",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "Shared library for microservices, written for Node.js",
     "author": "e.GO Digital GmbH, Aachen, Germany",
     "license": "LGPL-3.0",
