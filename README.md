@@ -84,7 +84,7 @@ interface IMyEvent {
 
 const myEventPublisher = new NatsPublisher('my.event');
 
-myEventPublisher.publish({
+await myEventPublisher.publish({
     foo: "TM+MK",
     bar: 42
 });
