@@ -104,7 +104,7 @@ interface IMyEvent {
 
 const myEventListener = new NatsListener<IMyEvent>('my.event');
 
-myEventListener.onMessage = (context) => {
+myEventListener.onMessage = async (context) => {
     // handle message in context.message of type IMyEvent
 };
 
