@@ -95,7 +95,7 @@ stan.exitOnClose();
 Listen for events:
 
 ```typescript
-import { stan } from '@egodigital/microservices';
+import { NatsListener } from '@egodigital/microservices';
 
 interface IMyEvent {
     foo: string;
@@ -116,7 +116,7 @@ myEventListener.listen();
 Publish events:
 
 ```typescript
-import { stan } from '@egodigital/microservices';
+import { NatsPublisher } from '@egodigital/microservices';
 
 interface IMyEvent {
     foo: string;
