@@ -18,6 +18,8 @@ npm install --save @egodigital/microservices
 
 #### Passwords
 
+Hash passwords with [bcrypt](https://en.wikipedia.org/wiki/Bcrypt):
+
 ```typescript
 import { checkPassword, checkPasswordSync, hashPassword, hashPasswordSync } from '@egodigital/microservices';
 
@@ -29,6 +31,8 @@ const matches2 = checkPasswordSync('test', hash2);
 ```
 
 #### JWT
+
+Sign and verify [JSON Web Tokens](https://en.wikipedia.org/wiki/JSON_Web_Token):
 
 ```typescript
 import { signJWT, verifyJWT } from '@egodigital/microservices';
@@ -45,6 +49,8 @@ const decodedToken = verifyJWT<IUserToken>(jwt);
 ```
 
 ##### Express
+
+Use predefined [Express middleware](https://expressjs.com/en/guide/using-middleware.html) to verify and decode JWTs:
 
 ```typescript
 import express from 'express';
@@ -75,6 +81,8 @@ app.listen(4242, () => {
 
 ### NATS
 
+Connect to a [NATS](https://en.wikipedia.org/wiki/NATS_Messaging) server:
+
 ```typescript
 import { stan } from '@egodigital/microservices';
 
@@ -84,6 +92,8 @@ stan.exitOnClose();
 
 #### Listener
 
+Listen for events:
+
 ```typescript
 import { stan } from '@egodigital/microservices';
 
@@ -92,7 +102,7 @@ interface IMyEvent {
     bar: number;
 }
 
-const myEventListener = new NatsListener('my.event');
+const myEventListener = new NatsListener<IMyEvent>('my.event');
 
 myEventListener.onMessage = (context) => {
     // handle message in context.message of type IMyEvent
@@ -103,6 +113,8 @@ myEventListener.listen();
 
 #### Publisher
 
+Publish events:
+
 ```typescript
 import { stan } from '@egodigital/microservices';
 
@@ -111,7 +123,7 @@ interface IMyEvent {
     bar: number;
 }
 
-const myEventPublisher = new NatsPublisher('my.event');
+const myEventPublisher = new NatsPublisher<IMyEvent>('my.event');
 
 await myEventPublisher.publish({
     foo: "TM+MK",

@@ -1,6 +1,6 @@
 {
     "name": "@egodigital/microservices",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Shared library for microservices, written for Node.js",
     "author": "e.GO Digital GmbH, Aachen, Germany",
     "license": "LGPL-3.0",
@@ -29,7 +29,10 @@
         "module",
         "helper",
         "node",
-        "typescript"
+        "typescript",
+        "bcrypt",
+        "jwt",
+        "json web token"
     ],
     "dependencies": {
         "@egodigital/types": "^1.2.0",
@@ -43,7 +46,7 @@
     },
     "devDependencies": {
         "@egodigital/tsconfig": "^4.0.0",
-        "@types/node": "^12.19.16",
+        "@types/node": "^12.20.3",
         "del-cli": "^3.0.1",
         "eslint": "^7.20.0",
         "eslint-config-ego": "^0.15.0",

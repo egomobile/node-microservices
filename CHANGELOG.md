@@ -1,6 +1,6 @@
 # Change Log (@egodigital/microservices)
 
-## 0.2.0
+## 0.2.1
 
 * add functions, that hashes passwords with bcrypt
 * add JWT helper functions
