@@ -1,5 +1,9 @@
 # Change Log (@egodigital/microservices)
 
+## 0.4.0
+
+* better error handling of [onMessage](https://egodigital.github.io/node-microservices/classes/nats_listener.natslistener.html#onmessage) listener
+
 ## 0.3.0
 
 * BREAKING CHANGE: [subscriptionOptions](https://egodigital.github.io/node-microservices/classes/nats_listener.natslistener.html#subscriptionoptions) property of [NatsListener](https://egodigital.github.io/node-microservices/classes/nats_listener.natslistener.html) class is read-only now
