@@ -142,13 +142,9 @@ export class NatsListener<TEvent extends any = any> {
                     let message: any;
                     try {
                         message = parseMessage(rawMessage);
-                    } catch (e) {
-                        if (e instanceof SyntaxError) {
-                            rawMessage.ack();  // JSON parse errors should not resend events
-                            return;
-                        } else {
-                            throw e;
-                        }
+                    } catch {
+                        rawMessage.ack();  // JSON parse errors should not resend events
+                        return;
                     }
 
                     onMessage({

@@ -1,6 +1,6 @@
 # Change Log (@egodigital/microservices)
 
-## 0.4.0
+## 0.4.1
 
 * better error handling of [onMessage](https://egodigital.github.io/node-microservices/classes/nats_listener.natslistener.html#onmessage) listener
 
