@@ -91,6 +91,59 @@ export class NatsListener<TEvent extends any = any> {
     public readonly groupName: string;
 
     /**
+     * Internal NATS client message handler.
+     *
+     * @param {Message} rawMessage The raw message.
+     */
+    protected handleSubscriptionMessage(rawMessage: Message): void {
+        let shouldAck = true;
+        let shouldForceAck = false;
+        const ack = (force = false) => {
+            shouldAck = true;
+            shouldForceAck = !!force;
+        };
+        const noAck = () => {
+            shouldAck = false;
+        };
+
+        const onError = (err: any) => {
+            console.error(err);
+
+            noAck();
+        };
+        const onSuccess = () => {
+            if (shouldForceAck || (this.autoAck && shouldAck)) {
+                rawMessage.ack();
+            }
+        };
+
+        try {
+            const onMessage = this.onMessage;
+            if (onMessage) {
+                let message: any;
+                try {
+                    message = parseMessage(rawMessage);
+                } catch {
+                    rawMessage.ack();  // JSON parse errors should not resend events
+                    return;
+                }
+
+                onMessage({
+                    ack,
+                    message,
+                    noAck,
+                    rawMessage
+                }).then(onSuccess)
+                    .catch(onError);
+            } else {
+                onSuccess();
+            }
+        } catch (e) {
+            onError(e);
+        }
+    }
+
+    /**
      * Initializes the subscription options.
      *
      * @param {SubscriptionOptions} options The "empty" options object.
@@ -114,53 +167,7 @@ export class NatsListener<TEvent extends any = any> {
             this.subscriptionOptions
         );
 
-        subscription.on('message', (rawMessage: Message) => {
-            let shouldAck = true;
-            let shouldForceAck = false;
-            const ack = (force = false) => {
-                shouldAck = true;
-                shouldForceAck = !!force;
-            };
-            const noAck = () => {
-                shouldAck = false;
-            };
-
-            const onError = (err: any) => {
-                console.error(err);
-
-                noAck();
-            };
-            const onSuccess = () => {
-                if (shouldForceAck || (this.autoAck && shouldAck)) {
-                    rawMessage.ack();
-                }
-            };
-
-            try {
-                const onMessage = this.onMessage;
-                if (onMessage) {
-                    let message: any;
-                    try {
-                        message = parseMessage(rawMessage);
-                    } catch {
-                        rawMessage.ack();  // JSON parse errors should not resend events
-                        return;
-                    }
-
-                    onMessage({
-                        ack,
-                        message,
-                        noAck,
-                        rawMessage
-                    }).then(onSuccess)
-                        .catch(onError);
-                } else {
-                    onSuccess();
-                }
-            } catch (e) {
-                onError(e);
-            }
-        });
+        subscription.on('message', this.handleSubscriptionMessage.bind(this));
 
         return subscription;
     }
