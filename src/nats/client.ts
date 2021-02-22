@@ -79,7 +79,7 @@ export class NatsClient {
     }
 
     /**
-     * Registers the process events to close the client of exit.
+     * Registers the process events to close the client on exit.
      */
     public exitOnClose() {
         // close process, if connection to NATS

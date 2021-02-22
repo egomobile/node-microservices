@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * This file is part of the @egodigital/microservices distribution.
  * Copyright (c) e.GO Digital GmbH, Aachen, Germany (https://www.e-go-digital.com/)
@@ -18,6 +19,7 @@
 import { Message, Stan, Subscription, SubscriptionOptions } from 'node-nats-streaming';
 import { NatsClient, stan } from './client';
 import { NATS_GROUP } from '../constants';
+import { Nilable } from '@egodigital/types';
 
 /**
  * Context for an 'onMessage' event.
@@ -25,10 +27,12 @@ import { NATS_GROUP } from '../constants';
 export interface INatsEventMessageHandlerContext<TEvent extends any = any> {
     /**
      * The function to call, if message should be ack.
+     *
+     * @param {boolean} [force] Force ack or not. Default: (false)
      */
-    ack: () => void;
+    ack: (force?: boolean) => void;
     /**
-     * The parsed data,
+     * The parsed data.
      */
     message: TEvent;
     /**
@@ -69,18 +73,34 @@ export class NatsListener<TEvent extends any = any> {
 
         this.groupName = NATS_GROUP;
 
-        this.subscriptionOptions = this.stan
-            .subscriptionOptions()
-            .setDeliverAllAvailable()
-            .setManualAckMode(true)
-            .setAckWait(60 * 1000)
-            .setDurableName(this.groupName);
+        const options = this.stan.subscriptionOptions();
+        {
+            this.initSubscriptionOptions(options);
+            this.subscriptionOptions = options;
+        }
     }
+
+    /**
+     * Do an automatic ack on each message event or not.
+     */
+    public autoAck = true;
 
     /**
      * The NATS group.
      */
     public readonly groupName: string;
+
+    /**
+     * Initializes the subscription options.
+     *
+     * @param {SubscriptionOptions} options The "empty" options object.
+     */
+    protected initSubscriptionOptions(options: SubscriptionOptions) {
+        options.setDeliverAllAvailable()
+            .setManualAckMode(true)
+            .setAckWait(60 * 1000)
+            .setDurableName(this.groupName);
+    }
 
     /**
      * Start listening.
@@ -96,15 +116,27 @@ export class NatsListener<TEvent extends any = any> {
 
         subscription.on('message', (rawMessage: Message) => {
             let shouldAck = true;
-            const ack = () => {
+            let shouldForceAck = false;
+            const ack = (force = false) => {
                 shouldAck = true;
+                shouldForceAck = !!force;
             };
             const noAck = () => {
                 shouldAck = false;
             };
 
+            const onError = (err: any) => {
+                console.error(err);
+
+                noAck();
+            };
+            const onSuccess = () => {
+                if (shouldForceAck || (this.autoAck && shouldAck)) {
+                    rawMessage.ack();
+                }
+            };
+
             try {
-                // eslint-disable-next-line no-unused-expressions
                 const onMessage = this.onMessage;
                 if (onMessage) {
                     onMessage({
@@ -112,16 +144,13 @@ export class NatsListener<TEvent extends any = any> {
                         message: parseMessage(rawMessage),
                         noAck,
                         rawMessage
-                    });
+                    }).then(onSuccess)
+                        .catch(onError);
+                } else {
+                    onSuccess();
                 }
             } catch (e) {
-                console.error(e);
-
-                noAck();
-            } finally {
-                if (shouldAck) {
-                    rawMessage.ack();
-                }
+                onError(e);
             }
         });
 
@@ -131,12 +160,7 @@ export class NatsListener<TEvent extends any = any> {
     /**
      * Can be used to register a function, to receive event messages.
      */
-    public onMessage?: OnNatsEventMessageHandler<TEvent> | null | undefined;
-
-    /**
-     * The subscription options.
-     */
-    public subscriptionOptions: SubscriptionOptions;
+    public onMessage?: Nilable<OnNatsEventMessageHandler<TEvent>>;
 
     /**
      * Gets the underlying basic NATS client.
@@ -146,6 +170,11 @@ export class NatsListener<TEvent extends any = any> {
     public get stan(): Stan {
         return this.client.client;
     }
+
+    /**
+     * The subscription options.
+     */
+    public readonly subscriptionOptions: SubscriptionOptions;
 }
 
 function parseMessage(msg: Message) {
