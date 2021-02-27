@@ -24,10 +24,10 @@ Hash passwords with [bcrypt](https://en.wikipedia.org/wiki/Bcrypt):
 import { checkPassword, checkPasswordSync, hashPassword, hashPasswordSync } from '@egodigital/microservices';
 
 const hash1 = await hashPassword('test');
-const matches2 = await checkPassword('test', hash1);
+const doesMatch1 = await checkPassword('test', hash1);  // true
 
 const hash2 = hashPasswordSync('test');
-const matches2 = checkPasswordSync('test', hash2);
+const doesMatch2 = checkPasswordSync('Test', hash2);  // false
 ```
 
 #### JWT

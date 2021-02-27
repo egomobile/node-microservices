@@ -1,5 +1,10 @@
 # Change Log (@egodigital/microservices)
 
+## 0.6.0
+
+* BREAKING CHANGE: [express](https://www.npmjs.com/package/express) is now added to [peerDependencies](https://nodejs.org/es/blog/npm/peer-dependencies/)
+* typos
+
 ## 0.5.0
 
 * code cleanups and improvements
