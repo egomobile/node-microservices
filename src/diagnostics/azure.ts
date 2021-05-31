@@ -15,6 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './azureAd';
-export * from './jwt';
-export * from './password';
+import { APPLICATION_INSIGHTS_KEY, LOCAL_DEVELOPMENT } from '../constants';
+
+/**
+ * Sets up Application Insights for that app,
+ * if 'APPLICATION_INSIGHTS_KEY' environment variable is defined
+ * AND app is not running in local development context.
+ */
+export function setupApplicationInsights() {
+    if (LOCAL_DEVELOPMENT !== 'true' && APPLICATION_INSIGHTS_KEY?.length) {
+        const applicationInsights = require('applicationinsights');
+
+        applicationInsights.setup(APPLICATION_INSIGHTS_KEY).start();
+    }
+}

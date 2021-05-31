@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /**
  * This file is part of the @egomobile/microservices distribution.
  * Copyright (c) Next.e.GO Mobile SE, Aachen, Germany (https://e-go-mobile.com/)
@@ -16,6 +17,21 @@
  */
 
 /**
+ * Application Insights key.
+ */
+export const APPLICATION_INSIGHTS_KEY = process.env.APPLICATION_INSIGHTS_KEY?.trim();
+
+// Azure AD settings
+export const AZURE_AD_AUDIENCE = process.env.AZURE_AD_AUDIENCE?.trim();
+export const AZURE_AD_CLIENT_ID = process.env.AZURE_AD_CLIENT_ID?.trim();
+export const AZURE_AD_IDENTITY_METADATA = process.env.AZURE_AD_IDENTITY_METADATA?.trim();
+export const AZURE_AD_IS_B2C = process.env.AZURE_AD_IS_B2C?.toLowerCase().trim();
+export const AZURE_AD_LOGGING_LEVEL = process.env.AZURE_AD_LOGGING_LEVEL?.toLowerCase().trim();
+export const AZURE_AD_PASS_REQ_TO_CALLBACK = process.env.AZURE_AD_PASS_REQ_TO_CALLBACK?.toLowerCase().trim();
+export const AZURE_AD_POLICY_NAME = process.env.AZURE_AD_POLICY_NAME?.trim();
+export const AZURE_AD_VALIDATE_ISSUER = process.env.AZURE_AD_VALIDATE_ISSUER?.toLowerCase().trim();
+
+/**
  * The number of rounds for bcrypt hashing.
  */
 export const BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS?.trim();
@@ -24,6 +40,11 @@ export const BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS?.trim();
  * The secret for signing and validating JWT.
  */
 export const JWT_SECRET = process.env.JWT_SECRET?.trim();
+
+/**
+ * Indicates if app currently running under local development or not.
+ */
+export const LOCAL_DEVELOPMENT = process.env.LOCAL_DEVELOPMENT?.toLowerCase().trim();
 
 /**
  * The name of the cluster, that contains this and the other microservices.

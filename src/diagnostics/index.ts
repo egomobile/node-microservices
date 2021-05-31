@@ -15,6 +15,4 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './azureAd';
-export * from './jwt';
-export * from './password';
+export * from './azure';
