@@ -1,4 +1,9 @@
-# Change Log (@egodigital/microservices)
+# Change Log (@egomobile/microservices)
+
+## 0.8.0
+
+* change to [e.GO Mobile](https://e-go-mobile.com/)
+* `npm update`
 
 ## 0.7.0
 

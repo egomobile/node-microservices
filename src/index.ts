@@ -1,14 +1,14 @@
 /* eslint-disable spaced-comment */
 
 /**
- * This file is part of the @egodigital/microservices distribution.
- * Copyright (c) e.GO Digital GmbH, Aachen, Germany (https://www.e-go-digital.com/)
+ * This file is part of the @egomobile/microservices distribution.
+ * Copyright (c) Next.e.GO Mobile SE, Aachen, Germany (https://e-go-mobile.com/)
  *
- * @egodigital/microservices is free software: you can redistribute it and/or modify
+ * @egomobile/microservices is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, version 3.
  *
- * @egodigital/microservices is distributed in the hope that it will be useful, but
+ * @egomobile/microservices is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.

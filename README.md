@@ -1,6 +1,6 @@
-[![npm](https://img.shields.io/npm/v/@egodigital/microservices.svg)](https://www.npmjs.com/package/@egodigital/microservices)
+[![npm](https://img.shields.io/npm/v/@egomobile/microservices.svg)](https://www.npmjs.com/package/@egomobile/microservices)
 
-# @egodigital/microservices
+# @egomobile/microservices
 
 > Shared library for microservices, written for [Node.js](https://nodejs.org/en/blog/release/v12.0.0/), in [TypeScript](https://www.typescriptlang.org/).
 
@@ -9,7 +9,7 @@
 Execute the following command from your project folder, where your `package.json` file is stored:
 
 ```bash
-npm install --save @egodigital/microservices
+npm install --save @egomobile/microservices
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm install --save @egodigital/microservices
 Hash passwords with [bcrypt](https://en.wikipedia.org/wiki/Bcrypt):
 
 ```typescript
-import { checkPassword, checkPasswordSync, hashPassword, hashPasswordSync } from '@egodigital/microservices';
+import { checkPassword, checkPasswordSync, hashPassword, hashPasswordSync } from '@egomobile/microservices';
 
 const hash1 = await hashPassword('test');
 const doesMatch1 = await checkPassword('test', hash1);  // true
@@ -35,7 +35,7 @@ const doesMatch2 = checkPasswordSync('Test', hash2);  // false
 Sign and verify [JSON Web Tokens](https://en.wikipedia.org/wiki/JSON_Web_Token):
 
 ```typescript
-import { signJWT, verifyJWT } from '@egodigital/microservices';
+import { signJWT, verifyJWT } from '@egomobile/microservices';
 
 interface IUserToken {
     uuid: string;
@@ -54,7 +54,7 @@ Use predefined [Express middleware](https://expressjs.com/en/guide/using-middlew
 
 ```typescript
 import express from 'express';
-import { withJWT } from '@egodigital/microservices';
+import { withJWT } from '@egomobile/microservices';
 
 const app = express();
 
@@ -84,7 +84,7 @@ app.listen(4242, () => {
 Connect to a [NATS](https://en.wikipedia.org/wiki/NATS_Messaging) server:
 
 ```typescript
-import { stan } from '@egodigital/microservices';
+import { stan } from '@egomobile/microservices';
 
 await stan.connect();
 stan.exitOnClose();
@@ -95,7 +95,7 @@ stan.exitOnClose();
 Listen for events:
 
 ```typescript
-import { NatsListener } from '@egodigital/microservices';
+import { NatsListener } from '@egomobile/microservices';
 
 interface IMyEvent {
     foo: string;
@@ -116,7 +116,7 @@ myEventListener.listen();
 Publish events:
 
 ```typescript
-import { NatsPublisher } from '@egodigital/microservices';
+import { NatsPublisher } from '@egomobile/microservices';
 
 interface IMyEvent {
     foo: string;
@@ -133,4 +133,4 @@ await myEventPublisher.publish({
 
 ## Documentation
 
-The API documentation can be found [here](https://egodigital.github.io/node-microservices/).
+The API documentation can be found [here](https://egomobile.github.io/node-microservices/).

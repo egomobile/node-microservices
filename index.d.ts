@@ -1,4 +1,4 @@
-import { Nilable } from '@egodigital/types';
+import { Nilable } from '@egomobile/types';
 import express from 'express';
 
 declare module 'express' {
