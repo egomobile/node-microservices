@@ -46,7 +46,7 @@ export function setupAppForAzureAD(app: Express): ISetupForAzureADResult {
         throw new Error('No AZURE_AD_CLIENT_ID defined');
     }
 
-    const passport: PassportStatic = require('passport-azure-ad');
+    const passport: PassportStatic = require('passport');
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { BearerStrategy } = require('passport-azure-ad');
 
