@@ -1,5 +1,3 @@
-/* eslint-disable spaced-comment */
-
 /**
  * This file is part of the @egomobile/microservices distribution.
  * Copyright (c) Next.e.GO Mobile SE, Aachen, Germany (https://e-go-mobile.com/)
@@ -17,11 +15,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/// <reference path="../index.d.ts" />
+import { RequestHandler } from 'express';
+import { LOCAL_DEVELOPMENT } from '../constants';
 
-export * from './auth';
-export * from './constants';
-export * from './diagnostics';
-export * from './express';
-export * from './nats';
-export * from './utils';
+/**
+ * Wraps a request handler with an error handler.
+ *
+ * @param {RequestHandler} handler The handler to wrap.
+ *
+ * @returns {RequestHandler} The wrapper.
+ */
+export function withErrorHandler(handler: RequestHandler): RequestHandler {
+    return async (request, response, next) => {
+        try {
+            return await Promise.resolve(
+                handler(request, response, next)
+            );
+        } catch (ex) {
+            if (!response.headersSent) {
+                response.status(500);
+            }
+
+            if (LOCAL_DEVELOPMENT === 'true') {
+                return response.send(`${ex}`);
+            }
+
+            return response.send();
+        }
+    };
+}
