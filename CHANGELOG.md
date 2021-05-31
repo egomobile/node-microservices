@@ -1,6 +1,6 @@
 # Change Log (@egomobile/microservices)
 
-## 0.9.0
+## 0.9.1
 
 * can connect with [Azure AD](https://azure.microsoft.com/en-us/services/active-directory/), by using [passport](https://www.npmjs.com/package/passport) and [passport-azure-ad](https://www.npmjs.com/package/passport-azure-ad) now
 * can setup app for use with [Application Insights](https://azure.microsoft.com/en-us/services/monitor/
