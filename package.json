@@ -1,6 +1,6 @@
 {
     "name": "@egomobile/microservices",
-    "version": "0.10.0",
+    "version": "0.10.1",
     "description": "Shared library for microservices, written for Node.js",
     "author": "Next.e.GO Mobile SE, Aachen, Germany",
     "license": "LGPL-3.0",
@@ -32,7 +32,16 @@
         "typescript",
         "bcrypt",
         "jwt",
-        "json web token"
+        "json web token",
+        "azure",
+        "authentication",
+        "oauth2",
+        "active directory",
+        "express",
+        "utils",
+        "application insights",
+        "passport",
+        "cloud"
     ],
     "dependencies": {
         "@egomobile/types": "^2.0.0",
