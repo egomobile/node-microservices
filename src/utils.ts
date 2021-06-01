@@ -20,11 +20,11 @@
  *
  * @param {any} val The value to check.
  *
- * @returns {boolean} Is (null) or (undefined),
+ * @returns {boolean} Is (null) or (undefined).
  */
 export function isNil(val: any): val is (null | undefined) {
-    return val === null ||
-        typeof val === 'undefined';
+    return typeof val === 'undefined' ||
+        val === null;
 }
 
 /**
@@ -61,7 +61,7 @@ export function tick<TResult>(
  *
  * @param {any} val The input value.
  *
- * @returns {string} The value as string,
+ * @returns {string} The value as string.
  */
 export function toStringSafe(val: any): string {
     if (typeof val === 'string') {

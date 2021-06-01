@@ -38,7 +38,7 @@ export class NatsPublisher<TEvent extends any = any> {
      *
      * @param {TEvent} data The data to publish.
      *
-     * @returns {Promise<void>} The promise
+     * @returns {Promise<void>} The promise.
      */
     public publish(data: TEvent): Promise<void> {
         return new Promise<void>((resolve, reject) => {

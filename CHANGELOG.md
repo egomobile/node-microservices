@@ -1,5 +1,11 @@
 # Change Log (@egomobile/microservices)
 
+## 0.11.0
+
+* downgrade to [TypeScript 4.2.4](https://www.npmjs.com/package/typescript/v/4.2.4)
+* fix typos
+* code cleanups and improvements
+
 ## 0.10.0
 
 * add `isNil`, `tick`, `toStringSafe` and `withErrorHandler` helper functions
