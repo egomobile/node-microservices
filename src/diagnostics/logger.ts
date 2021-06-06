@@ -15,5 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './azure';
-export * from './logger';
+import { createLogger as createWinstonLogger, format, Logger, transports } from 'winston';
+import { LOCAL_DEVELOPMENT } from '../constants';
+
+/**
+ * Creates a new logger instance.
+ *
+ * @returns {Logger} The new instance.
+ */
+export function createLogger(): Logger {
+    return createWinstonLogger();
+}
+
+// the global logger
+export const logger = createLogger();
+
+if (LOCAL_DEVELOPMENT === 'true') {
+    // console output
+    logger.add(new transports.Console({
+        format: format.combine(
+            format.colorize(),
+            format.simple()
+        )
+    }));
+}

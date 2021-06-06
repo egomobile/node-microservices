@@ -108,12 +108,27 @@ app.listen(4242, () => {
 | `BCRYPT_ROUNDS`   | The number of rounds for bcrypt hashing. Default: `10`                      | `12`                               |
 | `JWT_SECRET`      | The secret for signing and validating JWT.                                  | `mySecretJWTSecret`                |
 | `LOCAL_DEVELOPMENT` | `true` if app running in local development context or not. | `false` |
+| `MONGO_DB` | The name of the database to connect to. | `myDatabase` |
+| `MONGO_IS_COSMOSDB` | `true`, if server runs as [Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) instance. | `true` |
+| `MONGO_URL` | The connection URL. | `mongodb://mongo.example.com:27017` |
 | `NATS_CLUSTER_ID` | The name of the cluster, that contains all microservices.                   | `my-cluster`                       |
 | `NATS_GROUP`      | The name of the pod group / Kubernetes deployment.                          | `my-service-or-deployment`         |
 | `NATS_URL`        | The URL to the NATS server.                                                 | `http://my-nats-service:4222`      |
 | `POD_NAME`        | The name of the pod. This should come as imported metadata from Kubernetes. | `my-service-or-deployment-xcsgbxv` |
 
 ### Diagnostics
+
+The library uses [winston](https://www.npmjs.com/package/winston) as logger:
+
+```typescript
+import { logger } from '@egomobile/microservices';
+
+logger.info('Hello e.GO!', {
+    file: __filename
+});
+```
+
+#### Application Insights
 
 Setup [Application Insights](https://www.npmjs.com/package/applicationinsights):
 
@@ -123,6 +138,37 @@ import { setupApplicationInsights } from '@egomobile/microservices';
 // you must define 'APPLICATION_INSIGHTS_KEY'
 // and must not be in local development context
 setupApplicationInsights();
+```
+
+### MongoDB
+
+Use `MongoDatabase` class, which has simple support to handle [MongoDB](https://www.npmjs.com/package/mongodb) connections:
+
+```typescript
+import { MongoDatabase } from '@egomobile/microservices';
+
+const mongo = new MongoDatabase();
+
+// insert
+await mongo.insert('myCollection', [{
+    uuid: '8d41b8fc-2110-4b05-91ff-0a40c007be9d',
+    last_name: 'Kloubert',
+    first_name: 'Marcel'
+}, {
+    uuid: '90b7191d-44ce-43c9-a6e3-b777a8b9c8a6',
+    last_name: 'M',
+    first_name: 'Tanja'
+}]);
+
+// find
+const docs = await mongo.find('myCollection', {
+    first_name: 'Tanja'
+});
+
+// count
+const docsCount = await mongo.count('myCollection', {
+    first_name: 'Marcel'
+});
 ```
 
 ### NATS

@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.12.0
+
+* add default [logger](https://www.npmjs.com/package/winston)
+* add [MongoDB](https://www.npmjs.com/package/mongodb) support
+
 ## 0.11.0
 
 * downgrade to [TypeScript 4.2.4](https://www.npmjs.com/package/typescript/v/4.2.4)
