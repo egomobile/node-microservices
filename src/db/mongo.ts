@@ -22,6 +22,24 @@ const MONGO_DB = process.env.MONGO_DB?.trim();
 const MONGO_URL = process.env.MONGO_URL?.trim();
 
 /**
+ * Options for 'MongoDatabase' class;
+ */
+export interface IMongoDatabaseOptions {
+    /**
+     * The name of the database.
+     */
+    db: string;
+    /**
+     * Is Cosmos DB or not.
+     */
+    isCosmosDB?: boolean;
+    /**
+     * The URI.
+     */
+    url: string;
+}
+
+/**
  * A connection to a MongoDB database.
  */
 export class MongoDatabase {
@@ -31,19 +49,34 @@ export class MongoDatabase {
 
     /**
      * Initializes a new instance of that class.
+     *
+     * @param {IMongoDatabaseOptions} [options] Custom options.
      */
-    constructor() {
-        if (!MONGO_DB?.length) {
+    constructor(options?: IMongoDatabaseOptions) {
+        let isCosmosDB: boolean;
+        let mongoDB: string | undefined;
+        let mongoUrl: string | undefined;
+        if (options) {
+            isCosmosDB = !!options.isCosmosDB;
+            mongoDB = options.db;
+            mongoUrl = options.url;
+        } else {
+            isCosmosDB = MONGO_IS_COSMOSDB === 'true';
+            mongoDB = MONGO_DB;
+            mongoUrl = MONGO_URL;
+        }
+
+        if (!mongoDB?.length) {
             throw new Error('No MONGO_DB defined');
         }
 
-        if (!MONGO_URL?.length) {
+        if (!mongoUrl?.length) {
             throw new Error('No MONGO_URL defined');
         }
 
-        this.isCosmosDB = MONGO_IS_COSMOSDB === 'true';
-        this.mongoDB = MONGO_DB;
-        this.mongoUrl = MONGO_URL;
+        this.isCosmosDB = isCosmosDB;
+        this.mongoDB = mongoDB;
+        this.mongoUrl = mongoUrl;
     }
 
     /**

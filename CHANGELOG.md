@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.14.0
+
+* add `IMongoDatabaseOptions` for constructor of `MongoDatabase` class
+
 ## 0.13.0
 
 * default [logging level](https://www.npmjs.com/package/winston#logging-levels) is set now
