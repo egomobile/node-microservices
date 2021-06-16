@@ -108,6 +108,7 @@ app.listen(4242, () => {
 | `BCRYPT_ROUNDS`   | The number of rounds for bcrypt hashing. Default: `10`                      | `12`                               |
 | `JWT_SECRET`      | The secret for signing and validating JWT.                                  | `mySecretJWTSecret`                |
 | `LOCAL_DEVELOPMENT` | `true` if app running in local development context or not. | `false` |
+| `LOG_LEVEL` | The name of the [logging level](https://www.npmjs.com/package/winston#logging-levels). | `debug` |
 | `MONGO_DB` | The name of the database to connect to. | `myDatabase` |
 | `MONGO_IS_COSMOSDB` | `true`, if server runs as [Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) instance. | `true` |
 | `MONGO_URL` | The connection URL. | `mongodb://mongo.example.com:27017` |

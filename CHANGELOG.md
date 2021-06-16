@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.13.0
+
+* default [logging level](https://www.npmjs.com/package/winston#logging-levels) is set now
+* add `log()` function
+
 ## 0.12.0
 
 * add default [logger](https://www.npmjs.com/package/winston)

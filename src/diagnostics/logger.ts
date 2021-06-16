@@ -15,8 +15,78 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createLogger as createWinstonLogger, format, Logger, transports } from 'winston';
-import { LOCAL_DEVELOPMENT } from '../constants';
+import { createLogger as createWinstonLogger, format, LeveledLogMethod, Logger, transports } from 'winston';
+import { LOCAL_DEVELOPMENT, LOG_LEVEL } from '../constants';
+
+/**
+ * A log function.
+ *
+ * The function itself logs DEBUG message.
+ */
+export interface ILogFunc extends LeveledLogMethod {
+    /**
+     * Logs errors.
+     */
+    error: LogFuncAction;
+    /**
+     * Logs infos.
+     */
+    info: LogFuncAction;
+    /**
+     * Logs verbose.
+     */
+    verbose: LogFuncAction;
+    /**
+     * Logs warning.
+     */
+    warn: LogFuncAction;
+}
+
+/**
+ * A log action.
+ *
+ * @param {string} message The message.
+ * @param {any[]} [meta] One or more meta data.
+ *
+ * @returns {ILogFunc} The new function.
+ */
+export type LogFuncAction = (message: string, ...meta: any[]) => ILogFunc;
+
+/**
+ * Creates a new logger function.
+ *
+ * @param {Logger} l The custom base logger.
+ *
+ * @returns {ILogFunc} The new function.
+ */
+export function createLogFunc(l: Logger): ILogFunc {
+    const func: ILogFunc = (function (message: string, ...meta: any[]) {
+        l.debug(message, ...meta);
+        return func;
+    }) as any;
+
+    func.error = (message: string, ...meta: any[]) => {
+        l.error(message, ...meta);
+        return func;
+    };
+
+    func.info = (message: string, ...meta: any[]) => {
+        l.info(message, ...meta);
+        return func;
+    };
+
+    func.verbose = (message: string, ...meta: any[]) => {
+        l.verbose(message, ...meta);
+        return func;
+    };
+
+    func.warn = (message: string, ...meta: any[]) => {
+        l.warn(message, ...meta);
+        return func;
+    };
+
+    return func;
+}
 
 /**
  * Creates a new logger instance.
@@ -24,7 +94,9 @@ import { LOCAL_DEVELOPMENT } from '../constants';
  * @returns {Logger} The new instance.
  */
 export function createLogger(): Logger {
-    return createWinstonLogger();
+    return createWinstonLogger({
+        level: LOG_LEVEL || (LOCAL_DEVELOPMENT === 'true' ? 'debug' : 'info')
+    });
 }
 
 // the global logger
@@ -39,3 +111,8 @@ if (LOCAL_DEVELOPMENT === 'true') {
         )
     }));
 }
+
+/**
+ * The global log function.
+ */
+export const log = createLogFunc(logger);

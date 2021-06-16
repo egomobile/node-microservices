@@ -47,6 +47,11 @@ export const JWT_SECRET = process.env.JWT_SECRET?.trim();
 export const LOCAL_DEVELOPMENT = process.env.LOCAL_DEVELOPMENT?.toLowerCase().trim();
 
 /**
+ * The log level.
+ */
+export const LOG_LEVEL = process.env.LOG_LEVEL?.toLowerCase().trim();
+
+/**
  * The name of the cluster, that contains this and the other microservices.
  */
 export const NATS_CLUSTER_ID = process.env.NATS_CLUSTER_ID?.trim();
