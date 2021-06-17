@@ -21,6 +21,8 @@ const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
 const MONGO_DB = process.env.MONGO_DB?.trim();
 const MONGO_URL = process.env.MONGO_URL?.trim();
 
+
+
 /**
  * Options for 'MongoDatabase' class;
  */
@@ -123,6 +125,28 @@ export class MongoDatabase {
             const collection = db.collection(collectionName);
 
             return collection.find(query, options).toArray();
+        });
+    }
+
+    /**
+     * Does a findOne on a MongoDB collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {any} query The query.
+     * @param {any} [options] Custom options.
+     *
+     * @returns {Promise<T>} The promise with the result.
+     */
+    public findOne<T extends any = any>(
+        collectionName: string,
+        query: any,
+        options?: any
+    ): Promise<T> {
+        return this.withConnection(client => {
+            const db = client.db(this.mongoDB);
+            const collection = db.collection(collectionName);
+
+            return collection.findOne(query, options);
         });
     }
 

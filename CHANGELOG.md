@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.15.0
+
+* add `findOne()` method to `MongoDatabase` class
+
 ## 0.14.0
 
 * add `IMongoDatabaseOptions` for constructor of `MongoDatabase` class
