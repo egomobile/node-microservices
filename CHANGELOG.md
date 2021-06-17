@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.17.0
+
+* better typings and `withClient()` method for `MongoDatabase` class
+
 ## 0.16.0
 
 * **IMPORTANT CHANGE**: console output by `logger` instance is activated by default now

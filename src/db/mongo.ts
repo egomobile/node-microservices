@@ -15,16 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-type MongoDatabaseAction<TResult extends any = any> = (client: any) => Promise<TResult>;
-
-const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
-const MONGO_DB = process.env.MONGO_DB?.trim();
-const MONGO_URL = process.env.MONGO_URL?.trim();
-
-
+import type { CollectionInsertManyOptions, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
 
 /**
- * Options for 'MongoDatabase' class;
+ * A MongoDB document.
+ */
+export type MongoDocument<T> = T & { _id: any };
+
+/**
+ * Options for 'MongoDatabase' class.
  */
 export interface IMongoDatabaseOptions {
     /**
@@ -40,6 +39,15 @@ export interface IMongoDatabaseOptions {
      */
     url: string;
 }
+
+/**
+ * Action for 'withClient()' method of 'MongoDatabase' class.
+ */
+export type WithMongoClientAction<TResult extends any = any> = (client: MongoDBClient) => Promise<TResult>;
+
+const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
+const MONGO_DB = process.env.MONGO_DB?.trim();
+const MONGO_URL = process.env.MONGO_URL?.trim();
 
 /**
  * A connection to a MongoDB database.
@@ -85,24 +93,28 @@ export class MongoDatabase {
      * Does a count on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {any} [query] The optional query.
-     * @param {any} [options] Custom options.
+     * @param {FilterQuery<T>} [query] The optional query.
+     * @param {MongoCountPreferences} [options] Custom options.
      *
      * @returns {Promise<number>} The promise with the number of documents.
      */
-    public async count(collectionName: string, query?: any, options?: any): Promise<number> {
+    public async count<T extends any = any>(
+        collectionName: string,
+        query?: FilterQuery<T>,
+        options?: MongoCountPreferences | WithoutProjection<FindOneOptions<T>>
+    ): Promise<number> {
         if (this.isCosmosDB) {
             // some versions of Cosmos DB instances
             // do not support 'count()' operations
             // so we have to do a 'find()' first
-            return (await this.find(collectionName, query || {}, options)).length;
+            return (await this.find(collectionName, query || {}, options as WithoutProjection<FindOneOptions<T>>)).length;
         }
 
-        return this.withConnection(client => {
+        return this.withClient(client => {
             const db = client.db(this.mongoDB);
             const collection = db.collection(collectionName);
 
-            return collection.count(query, options);
+            return collection.count(query, options as MongoCountPreferences);
         });
     }
 
@@ -110,21 +122,22 @@ export class MongoDatabase {
      * Does a find on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {any} query The query.
-     * @param {any} [options] Custom options.
+     * @param {FilterQuery<T>} query The query.
+     * @param {WithoutProjection<FindOneOptions<T>>} [options] Custom options.
      *
      * @returns {Promise<T[]>} The promise with the result.
      */
     public find<T extends any = any>(
         collectionName: string,
-        query: any,
-        options?: any
+        query: FilterQuery<T>,
+        options?: WithoutProjection<FindOneOptions<T>>
     ): Promise<T[]> {
-        return this.withConnection(client => {
+        return this.withClient(client => {
             const db = client.db(this.mongoDB);
             const collection = db.collection(collectionName);
 
-            return collection.find(query, options).toArray();
+            return collection.find(query, options)
+                .toArray();
         });
     }
 
@@ -132,17 +145,17 @@ export class MongoDatabase {
      * Does a findOne on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {any} query The query.
-     * @param {any} [options] Custom options.
+     * @param {FilterQuery<T>} query The query.
+     * @param {FindOneOptions<T>} [options] Custom options.
      *
-     * @returns {Promise<T>} The promise with the result.
+     * @returns {Promise<T|null>} The promise with the result or (null) if not found.
      */
     public findOne<T extends any = any>(
         collectionName: string,
-        query: any,
-        options?: any
-    ): Promise<T> {
-        return this.withConnection(client => {
+        query: FilterQuery<T>,
+        options?: FindOneOptions<T>
+    ): Promise<T | null> {
+        return this.withClient(client => {
             const db = client.db(this.mongoDB);
             const collection = db.collection(collectionName);
 
@@ -154,13 +167,13 @@ export class MongoDatabase {
      * Do an insert on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {any[]} docs The documents to insert.
-     * @param {any} [options] Custom options.
+     * @param {T[]} docs The documents to insert.
+     * @param {CollectionInsertManyOptions} [options] Custom options.
      *
-     * @returns {Promise<any>} The promise with the result.
+     * @returns {Promise<InsertWriteOpResult<MongoDocument<T>>>} The promise with the result.
      */
-    public insert(collectionName: string, docs: any[], options?: any): Promise<any> {
-        return this.withConnection(client => {
+    public insert<T extends any = any>(collectionName: string, docs: T[], options?: CollectionInsertManyOptions): Promise<InsertWriteOpResult<MongoDocument<T>>> {
+        return this.withClient(client => {
             const db = client.db(this.mongoDB);
             const collection = db.collection(collectionName);
 
@@ -168,13 +181,20 @@ export class MongoDatabase {
         });
     }
 
-    private async withConnection<TResult extends any = any>(
-        action: MongoDatabaseAction<TResult>
-    ) {
+    /**
+     * Opens a new client connections and executes an action for it.
+     *
+     * @param {WithMongoClientAction<TResult>} action The action to invoke.
+     *
+     * @returns {Promise<TResult>} The promise with the result.
+     */
+    public async withClient<TResult extends any = any>(
+        action: WithMongoClientAction<TResult>
+    ): Promise<TResult> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         const { MongoClient } = require('mongodb');
 
-        const client = await MongoClient.connect(this.mongoUrl, {
+        const client: MongoDBClient = await MongoClient.connect(this.mongoUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -182,7 +202,7 @@ export class MongoDatabase {
         try {
             return await action(client);
         } finally {
-            client.close();
+            await client.close();
         }
     }
 }
