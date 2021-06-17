@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.19.0
+
+* add `ApiResult` and `IApiResult` types
+
 ## 0.18.0
 
 * add second argument `db` to `withClient()` method of `MongoDatabase` class

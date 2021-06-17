@@ -19,6 +19,7 @@
 
 /// <reference path="../index.d.ts" />
 
+export * from './api';
 export * from './auth';
 export * from './constants';
 export * from './db';
