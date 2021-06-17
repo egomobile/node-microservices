@@ -18,11 +18,6 @@
 import type { CollectionInsertManyOptions, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
 
 /**
- * A MongoDB document.
- */
-export type MongoDocument<T> = T & { _id: any };
-
-/**
  * Options for 'MongoDatabase' class.
  */
 export interface IMongoDatabaseOptions {
@@ -39,6 +34,15 @@ export interface IMongoDatabaseOptions {
      */
     url: string;
 }
+
+/**
+ * A MongoDB document.
+ */
+export type MongoDocument<T> = T & { _id: any };
+
+export type IMongoSchema = {
+    [key: string]: any;
+};
 
 /**
  * Action for 'withClient()' method of 'MongoDatabase' class.
@@ -98,7 +102,7 @@ export class MongoDatabase {
      *
      * @returns {Promise<number>} The promise with the number of documents.
      */
-    public async count<T extends any = any>(
+    public async count<T = IMongoSchema>(
         collectionName: string,
         query?: FilterQuery<T>,
         options?: MongoCountPreferences | WithoutProjection<FindOneOptions<T>>
@@ -114,7 +118,7 @@ export class MongoDatabase {
             const db = client.db(this.mongoDB);
             const collection = db.collection(collectionName);
 
-            return collection.count(query, options as MongoCountPreferences);
+            return collection.count(query, options as MongoCountPreferences) as Promise<number>;
         });
     }
 
@@ -127,7 +131,7 @@ export class MongoDatabase {
      *
      * @returns {Promise<T[]>} The promise with the result.
      */
-    public find<T extends any = any>(
+    public find<T = IMongoSchema>(
         collectionName: string,
         query: FilterQuery<T>,
         options?: WithoutProjection<FindOneOptions<T>>
@@ -137,7 +141,7 @@ export class MongoDatabase {
             const collection = db.collection(collectionName);
 
             return collection.find(query, options)
-                .toArray();
+                .toArray() as Promise<T[]>;
         });
     }
 
@@ -150,16 +154,16 @@ export class MongoDatabase {
      *
      * @returns {Promise<T|null>} The promise with the result or (null) if not found.
      */
-    public findOne<T extends any = any>(
+    public findOne<T = IMongoSchema>(
         collectionName: string,
         query: FilterQuery<T>,
-        options?: FindOneOptions<T>
+        options?: FindOneOptions<T extends IMongoSchema ? IMongoSchema : T>
     ): Promise<T | null> {
         return this.withClient(client => {
             const db = client.db(this.mongoDB);
             const collection = db.collection(collectionName);
 
-            return collection.findOne(query, options);
+            return collection.findOne(query as any, options as any) as any;
         });
     }
 
@@ -172,7 +176,7 @@ export class MongoDatabase {
      *
      * @returns {Promise<InsertWriteOpResult<MongoDocument<T>>>} The promise with the result.
      */
-    public insert<T extends any = any>(collectionName: string, docs: T[], options?: CollectionInsertManyOptions): Promise<InsertWriteOpResult<MongoDocument<T>>> {
+    public insert<T = IMongoSchema>(collectionName: string, docs: T[], options?: CollectionInsertManyOptions): Promise<InsertWriteOpResult<MongoDocument<T>>> {
         return this.withClient(client => {
             const db = client.db(this.mongoDB);
             const collection = db.collection(collectionName);
