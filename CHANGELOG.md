@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.16.0
+
+* **IMPORTANT CHANGE**: console output by `logger` instance is activated by default now
+
 ## 0.15.0
 
 * add `findOne()` method to `MongoDatabase` class

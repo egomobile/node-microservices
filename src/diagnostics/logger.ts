@@ -102,7 +102,8 @@ export function createLogger(): Logger {
 // the global logger
 export const logger = createLogger();
 
-if (LOCAL_DEVELOPMENT === 'true') {
+// logger outputs
+{
     // console output
     logger.add(new transports.Console({
         format: format.combine(
