@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.18.0
+
+* add second argument `db` to `withClient()` method of `MongoDatabase` class
+
 ## 0.17.0
 
 * better typings and `withClient()` method for `MongoDatabase` class

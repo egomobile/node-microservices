@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { CollectionInsertManyOptions, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
+import type { CollectionInsertManyOptions, Db as MongoDb, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
 
 /**
  * Options for 'MongoDatabase' class.
@@ -40,14 +40,26 @@ export interface IMongoDatabaseOptions {
  */
 export type MongoDocument<T> = T & { _id: any };
 
+/**
+ * A Mongo schema.
+ */
 export type IMongoSchema = {
+    /**
+     * The list of props and values.
+     */
     [key: string]: any;
 };
 
 /**
  * Action for 'withClient()' method of 'MongoDatabase' class.
+ *
+ * @param {MongoDBClient} client The open client.
+ * @param {MongoDb} db The underlying default database instance.
+ *
+ * @returns {Promise<TResult>} The promise with the result.
  */
-export type WithMongoClientAction<TResult extends any = any> = (client: MongoDBClient) => Promise<TResult>;
+export type WithMongoClientAction<TResult extends any = any> =
+    (client: MongoDBClient, db: MongoDb) => Promise<TResult>;
 
 const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
 const MONGO_DB = process.env.MONGO_DB?.trim();
@@ -187,6 +199,7 @@ export class MongoDatabase {
 
     /**
      * Opens a new client connections and executes an action for it.
+     * After invocation the underlying connection is closed automatically.
      *
      * @param {WithMongoClientAction<TResult>} action The action to invoke.
      *
@@ -204,7 +217,7 @@ export class MongoDatabase {
         });
 
         try {
-            return await action(client);
+            return await action(client, client.db(this.mongoDB));
         } finally {
             await client.close();
         }
