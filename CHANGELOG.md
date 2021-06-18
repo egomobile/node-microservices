@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.20.0
+
+* add `options` parameter to `withErrorHandler()` function
+* `npm update`
+
 ## 0.19.0
 
 * add `ApiResult` and `IApiResult` types
