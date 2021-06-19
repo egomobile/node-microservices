@@ -15,6 +15,37 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+const nodeEnvDev = 'development';
+const nodeEnvProd = 'production';
+const nodeEnvTest = 'test';
+
+/**
+ * Checks if NODE_ENV has a value of 'development'.
+ *
+ * @returns {boolean} Has a value of 'development' or not.
+ */
+export function isDev(): boolean {
+    return isNodeEnv(nodeEnvDev);
+}
+
+/**
+ * Checks if app runs in Jest environment or not.
+ *
+ * @returns {boolean} Is running in Jest environment or not.
+ */
+export function isJest(): boolean {
+    return !!process.env.JEST_WORKER_ID?.length;
+}
+
+/**
+ * Checks if app is running in local development mode or not.
+ *
+ * @returns {boolean} Runs in local development mode or not.
+ */
+export function isLocalDev(): boolean {
+    return isTruely(process.env.LOCAL_DEVELOPMENT);
+}
+
 /**
  * Checks if a value is (null) or (undefined).
  *
@@ -25,6 +56,67 @@
 export function isNil(val: any): val is (null | undefined) {
     return typeof val === 'undefined' ||
         val === null;
+}
+
+/**
+ * Checks if NODE_ENV environment variable has a specific value.
+ *
+ * @param {any} envName The name to check.
+ *
+ * @returns {boolean} Has the value of envName or not.
+ */
+export function isNodeEnv(envName: any): boolean {
+    let NODE_ENV = toStringSafe(process.env.NODE_ENV).toLowerCase().trim();
+    envName = toStringSafe(process.env.NODE_ENV).toLowerCase().trim();
+
+    if (!NODE_ENV.length) {  // set default?
+        if (isLocalDev()) {
+            NODE_ENV = nodeEnvDev;
+        } else {
+            NODE_ENV = nodeEnvProd;
+        }
+    }
+
+    return NODE_ENV === envName;
+}
+
+/**
+ * Checks if NODE_ENV has a value of 'production'.
+ *
+ * @returns {boolean} Has a value of 'production' or not.
+ */
+export function isProd(): boolean {
+    return isNodeEnv(nodeEnvProd);
+}
+
+/**
+ * Checks if NODE_ENV has a value of 'test'.
+ *
+ * @returns {boolean} Has a value of 'test' or not.
+ */
+export function isTest(): boolean {
+    return isNodeEnv(nodeEnvTest);
+}
+
+/**
+ * Handles a value as string and checks if it prepresents a (true).
+ *
+ * @param {any} val The input value.
+ *
+ * @returns {boolean} Can be handled as (true) value.
+ *                    Possible values are: '1', 'true', 'y', 'yes'
+ */
+export function isTruely(val: any): boolean {
+    switch (toStringSafe(val).toLowerCase().trim()) {
+        case '1':
+        case 'true':
+        case 'y':
+        case 'yes':
+            return true;
+
+        default:
+            return false;
+    }
 }
 
 /**

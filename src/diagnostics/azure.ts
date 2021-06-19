@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { APPLICATION_INSIGHTS_KEY, LOCAL_DEVELOPMENT } from '../constants';
+import { isTruely } from '../utils';
 
 /**
  * Sets up Application Insights for that app,
@@ -23,7 +23,9 @@ import { APPLICATION_INSIGHTS_KEY, LOCAL_DEVELOPMENT } from '../constants';
  * AND app is not running in local development context.
  */
 export function setupApplicationInsights() {
-    if (LOCAL_DEVELOPMENT !== 'true' && APPLICATION_INSIGHTS_KEY?.length) {
+    const APPLICATION_INSIGHTS_KEY = process.env.APPLICATION_INSIGHTS_KEY?.trim();
+
+    if (isTruely(process.env.LOCAL_DEVELOPMENT) && APPLICATION_INSIGHTS_KEY?.length) {
         const applicationInsights = require('applicationinsights');
 
         applicationInsights.setup(APPLICATION_INSIGHTS_KEY).start();

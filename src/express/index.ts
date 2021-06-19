@@ -17,7 +17,7 @@
 
 import { Request, Response } from 'express';
 import { RequestHandler } from 'express';
-import { LOCAL_DEVELOPMENT } from '../constants';
+import { isTruely } from '../utils';
 
 /**
  * Custom options for 'withErrorHandler()' function.
@@ -49,7 +49,7 @@ export function withErrorHandler(handler: RequestHandler, options?: IWithErrorHa
                 resp.status(500);
             }
 
-            if (LOCAL_DEVELOPMENT === 'true') {
+            if (isTruely(process.env.LOCAL_DEVELOPMENT)) {
                 return resp.send(`${err}`);
             }
 

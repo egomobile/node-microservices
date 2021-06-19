@@ -18,7 +18,6 @@
 import { Express, RequestHandler } from 'express';
 import { PassportStatic } from 'passport';
 import { IBearerStrategyOptionWithRequest } from 'passport-azure-ad';
-import { AZURE_AD_AUDIENCE, AZURE_AD_CLIENT_ID, AZURE_AD_IDENTITY_METADATA, AZURE_AD_IS_B2C, AZURE_AD_LOGGING_LEVEL, AZURE_AD_PASS_REQ_TO_CALLBACK, AZURE_AD_POLICY_NAME, AZURE_AD_VALIDATE_ISSUER } from '../constants';
 
 /**
  * Result of a 'setupForAzureAD' function call.
@@ -38,6 +37,15 @@ export interface ISetupForAzureADResult {
  * @returns {ISetupForAzureADResult} The result.
  */
 export function setupAppForAzureAD(app: Express): ISetupForAzureADResult {
+    const AZURE_AD_AUDIENCE = process.env.AZURE_AD_AUDIENCE?.trim();
+    const AZURE_AD_CLIENT_ID = process.env.AZURE_AD_CLIENT_ID?.trim();
+    const AZURE_AD_IDENTITY_METADATA = process.env.AZURE_AD_IDENTITY_METADATA?.trim();
+    const AZURE_AD_IS_B2C = process.env.AZURE_AD_IS_B2C?.toLowerCase().trim();
+    const AZURE_AD_LOGGING_LEVEL = process.env.AZURE_AD_LOGGING_LEVEL?.toLowerCase().trim();
+    const AZURE_AD_PASS_REQ_TO_CALLBACK = process.env.AZURE_AD_PASS_REQ_TO_CALLBACK?.toLowerCase().trim();
+    const AZURE_AD_POLICY_NAME = process.env.AZURE_AD_POLICY_NAME?.trim();
+    const AZURE_AD_VALIDATE_ISSUER = process.env.AZURE_AD_VALIDATE_ISSUER?.toLowerCase().trim();
+
     if (!AZURE_AD_IDENTITY_METADATA?.length) {
         throw new Error('No AZURE_AD_IDENTITY_METADATA defined');
     }

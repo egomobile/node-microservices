@@ -16,7 +16,7 @@
  */
 
 import { createLogger as createWinstonLogger, format, LeveledLogMethod, Logger, transports } from 'winston';
-import { LOCAL_DEVELOPMENT, LOG_LEVEL } from '../constants';
+import { isTruely } from '../utils';
 
 /**
  * A log function.
@@ -94,8 +94,11 @@ export function createLogFunc(l: Logger): ILogFunc {
  * @returns {Logger} The new instance.
  */
 export function createLogger(): Logger {
+    const LOG_LEVEL = process.env.LOG_LEVEL?.toLowerCase().trim();
+
     return createWinstonLogger({
-        level: LOG_LEVEL || (LOCAL_DEVELOPMENT === 'true' ? 'debug' : 'info')
+        level: LOG_LEVEL ||
+            (isTruely(process.env.LOCAL_DEVELOPMENT) ? 'debug' : 'info')
     });
 }
 

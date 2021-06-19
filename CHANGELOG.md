@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.23.0
+
+* **BREAKING CHANGES**: remove global constants for Application Insights, Azure, JWT, password and NATS features, and the following ones: `LOCAL_DEVELOPMENT`, `LOG_LEVEL`
+* add 'isDev()', `isJest()`, `isLocalDev()`, `isNodeEnv()`, `isProd()`, `isTest()` and `isTruely()` functions
+
 ## 0.22.3
 
 * add `MONGO_IS_LAZY`: if `true`, `MongoDatabase` will throw an error, if not enough configuration data is available, the first time an instance of it is used, instead the time an instance of it is created

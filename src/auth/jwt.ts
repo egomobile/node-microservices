@@ -18,7 +18,6 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { Nilable, Optional } from '@egomobile/types';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { JWT_SECRET } from '../constants';
 
 /**
  * Options for 'withJWT()' function.
@@ -43,6 +42,8 @@ export interface IWithJWTOptions {
 }
 
 function getSecret() {
+    const JWT_SECRET = process.env.JWT_SECRET?.trim();
+
     if (!JWT_SECRET?.length) {
         throw new Error('No JWT_SECRET defined');
     }

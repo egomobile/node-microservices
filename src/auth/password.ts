@@ -16,9 +16,6 @@
  */
 
 import bcrypt from 'bcryptjs';
-import { BCRYPT_ROUNDS } from '../constants';
-
-let bcryptRounds: number | false = false;
 
 /**
  * Checks if a password matching a hash.
@@ -45,18 +42,15 @@ export function checkPasswordSync(password: string, hash: string): boolean {
 }
 
 function getRounds(): number {
-    if (!bcryptRounds) {
-        const rounds = parseInt(BCRYPT_ROUNDS || '10');
+    const BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS?.trim();
 
-        if (isNaN(rounds) || rounds < 1) {
-            throw new Error('BCRYPT_ROUNDS is no valid number');
-        }
+    const rounds = parseInt(BCRYPT_ROUNDS || '10');
 
-        bcryptRounds = rounds;
-        return rounds;
+    if (isNaN(rounds) || rounds < 1) {
+        throw new Error('BCRYPT_ROUNDS is no valid number');
     }
 
-    return bcryptRounds;
+    return rounds;
 }
 
 /**

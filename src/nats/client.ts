@@ -19,7 +19,7 @@
 
 import nats, { Stan } from 'node-nats-streaming';
 import { Nilable } from '@egomobile/types';
-import { NATS_CLUSTER_ID, NATS_URL, POD_NAME } from '../constants';
+import { POD_NAME } from '../constants';
 
 /**
  * A simple NATS client.
@@ -46,6 +46,9 @@ export class NatsClient {
      * @returns {Promise<Stan>} The promise with the base client.
      */
     public connect(): Promise<Stan> {
+        const NATS_CLUSTER_ID = process.env.NATS_CLUSTER_ID?.trim();
+        const NATS_URL = process.env.NATS_URL?.trim();
+
         if (!NATS_URL?.length) {
             throw new Error('No NATS_URL defined');
         }

@@ -19,7 +19,6 @@
 
 import { Message, Stan, Subscription, SubscriptionOptions } from 'node-nats-streaming';
 import { NatsClient, stan } from './client';
-import { NATS_GROUP } from '../constants';
 import { Nilable } from '@egomobile/types';
 
 /**
@@ -68,6 +67,8 @@ export class NatsListener<TEvent extends any = any> {
         public readonly subject: string,
         public readonly client: NatsClient = stan
     ) {
+        const NATS_GROUP = process.env.NATS_GROUP?.trim();
+
         if (!NATS_GROUP?.length) {
             throw new Error('No NATS_GROUP defined');
         }
