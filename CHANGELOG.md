@@ -1,5 +1,11 @@
 # Change Log (@egomobile/microservices)
 
+## 0.21.0
+
+* add `loadEnv()` and `loadEnvSync()` functions
+* `npm update`
+* code cleanups and improvements
+
 ## 0.20.0
 
 * add `options` parameter to `withErrorHandler()` function

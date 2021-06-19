@@ -24,6 +24,7 @@ export * from './auth';
 export * from './constants';
 export * from './db';
 export * from './diagnostics';
+export * from './env';
 export * from './express';
 export * from './nats';
 export * from './utils';
