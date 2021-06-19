@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import jwt, { SignOptions } from 'jsonwebtoken';
+import jwt, { DecodeOptions, SignOptions, VerifyOptions } from 'jsonwebtoken';
 import { Nilable, Optional } from '@egomobile/types';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
@@ -41,6 +41,28 @@ export interface IWithJWTOptions {
     setupToken?: (token: any, request: Request, response: Response) => any;
 }
 
+/**
+ * Decodes a JWT and returns it, if succeeded.
+ *
+ * @param {string} token The token as string.
+ * @param {Optional<DecodeOptions>} [options] Custom options.
+ *
+ * @returns {TToken|false} The decoded token, or (false) if failed.
+ */
+export function decodeJWT<TToken extends any = any>(
+    token: string,
+    options?: Optional<DecodeOptions>
+): TToken | false {
+    try {
+        const decodedToken = jwt.decode(token, options);
+        if (decodedToken) {
+            return decodedToken as any;
+        }
+    } catch { /* ignore */ }
+
+    return false;
+}
+
 function getSecret() {
     const JWT_SECRET = process.env.JWT_SECRET?.trim();
 
@@ -59,7 +81,10 @@ function getSecret() {
  *
  * @returns {string} The JWT.
  */
-export function signJWT(decodedToken: any, options?: Optional<SignOptions>): string {
+export function signJWT(
+    decodedToken: any,
+    options?: Optional<SignOptions>
+): string {
     return jwt.sign(decodedToken, getSecret(), options);
 }
 
@@ -67,12 +92,16 @@ export function signJWT(decodedToken: any, options?: Optional<SignOptions>): str
  * Verifies a JWT and returns it decoded version, if succeeded.
  *
  * @param {string} token The token as string.
+ * @param {Optional<VerifyOptions>} [options] Custom options.
  *
  * @returns {TToken|false} The decoded token, or (false), if verification failed.
  */
-export function verifyJWT<TToken extends any = any>(token: string): TToken | false {
+export function verifyJWT<TToken extends any = any>(
+    token: string,
+    options?: Optional<VerifyOptions>
+): TToken | false {
     try {
-        const decodedToken = jwt.verify(token, getSecret());
+        const decodedToken = jwt.verify(token, getSecret(), options);
         if (decodedToken) {
             return decodedToken as any;
         }

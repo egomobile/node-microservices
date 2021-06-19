@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.24.0
+
+* add `decodeJWT()` function
+* add optional `options` parameter for `verifyJWT()` function
+
 ## 0.23.0
 
 * **BREAKING CHANGES**: remove global constants for Application Insights, Azure, JWT, password and NATS features, and the following ones: `LOCAL_DEVELOPMENT`, `LOG_LEVEL`
