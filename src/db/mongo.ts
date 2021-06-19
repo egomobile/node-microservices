@@ -63,15 +63,14 @@ export type WithMongoClientAction<TResult extends any = any> =
 
 const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
 const MONGO_DB = process.env.MONGO_DB?.trim();
+const MONGO_IS_LAZY = process.env.MONGO_URL?.toLowerCase().trim();
 const MONGO_URL = process.env.MONGO_URL?.trim();
 
 /**
  * A connection to a MongoDB database.
  */
 export class MongoDatabase {
-    private readonly isCosmosDB: boolean;
-    private readonly mongoDB: string;
-    private readonly mongoUrl: string;
+    private readonly options: Partial<IMongoDatabaseOptions>;
 
     /**
      * Initializes a new instance of that class.
@@ -79,30 +78,40 @@ export class MongoDatabase {
      * @param {IMongoDatabaseOptions} [options] Custom options.
      */
     constructor(options?: IMongoDatabaseOptions) {
-        let isCosmosDB: boolean;
-        let mongoDB: string | undefined;
-        let mongoUrl: string | undefined;
+        let isCosmosDB: boolean | undefined;
+        let db: string | undefined;
+        let url: string | undefined;
         if (options) {
-            isCosmosDB = !!options.isCosmosDB;
-            mongoDB = options.db;
-            mongoUrl = options.url;
+            isCosmosDB = options.isCosmosDB;
+            db = options.db;
+            url = options.url;
         } else {
             isCosmosDB = MONGO_IS_COSMOSDB === 'true';
-            mongoDB = MONGO_DB;
-            mongoUrl = MONGO_URL;
+            db = MONGO_DB;
+            url = MONGO_URL;
         }
 
-        if (!mongoDB?.length) {
+        this.options = {
+            db,
+            isCosmosDB: !!isCosmosDB,
+            url
+        };
+
+        if (MONGO_IS_LAZY !== 'true') {
+            this.checkOptionsOrThrow();
+        }
+    }
+
+    private checkOptionsOrThrow() {
+        const { db, url } = this.options;
+
+        if (!db?.length) {
             throw new Error('No MONGO_DB defined');
         }
 
-        if (!mongoUrl?.length) {
+        if (!url?.length) {
             throw new Error('No MONGO_URL defined');
         }
-
-        this.isCosmosDB = isCosmosDB;
-        this.mongoDB = mongoDB;
-        this.mongoUrl = mongoUrl;
     }
 
     /**
@@ -119,7 +128,7 @@ export class MongoDatabase {
         query?: FilterQuery<T>,
         options?: MongoCountPreferences | WithoutProjection<FindOneOptions<T>>
     ): Promise<number> {
-        if (this.isCosmosDB) {
+        if (this.options.isCosmosDB) {
             // some versions of Cosmos DB instances
             // do not support 'count()' operations
             // so we have to do a 'find()' first
@@ -127,7 +136,7 @@ export class MongoDatabase {
         }
 
         return this.withClient(client => {
-            const db = client.db(this.mongoDB);
+            const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
             return collection.count(query, options as MongoCountPreferences) as Promise<number>;
@@ -149,7 +158,7 @@ export class MongoDatabase {
         options?: WithoutProjection<FindOneOptions<T>>
     ): Promise<T[]> {
         return this.withClient(client => {
-            const db = client.db(this.mongoDB);
+            const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
             return collection.find(query, options)
@@ -172,7 +181,7 @@ export class MongoDatabase {
         options?: FindOneOptions<T extends IMongoSchema ? IMongoSchema : T>
     ): Promise<T | null> {
         return this.withClient(client => {
-            const db = client.db(this.mongoDB);
+            const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
             return collection.findOne(query as any, options as any) as any;
@@ -190,7 +199,7 @@ export class MongoDatabase {
      */
     public insert<T = IMongoSchema>(collectionName: string, docs: T[], options?: CollectionInsertManyOptions): Promise<InsertWriteOpResult<MongoDocument<T>>> {
         return this.withClient(client => {
-            const db = client.db(this.mongoDB);
+            const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
             return collection.insertMany(docs, options);
@@ -208,16 +217,18 @@ export class MongoDatabase {
     public async withClient<TResult extends any = any>(
         action: WithMongoClientAction<TResult>
     ): Promise<TResult> {
+        this.checkOptionsOrThrow();
+
         // eslint-disable-next-line @typescript-eslint/naming-convention
         const { MongoClient } = require('mongodb');
 
-        const client: MongoDBClient = await MongoClient.connect(this.mongoUrl, {
+        const client: MongoDBClient = await MongoClient.connect(this.options.url!, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
 
         try {
-            return await action(client, client.db(this.mongoDB));
+            return await action(client, client.db(this.options.db!));
         } finally {
             await client.close();
         }

@@ -111,6 +111,7 @@ app.listen(4242, () => {
 | `LOG_LEVEL` | The name of the [logging level](https://www.npmjs.com/package/winston#logging-levels). | `debug` |
 | `MONGO_DB` | The name of the database to connect to. | `myDatabase` |
 | `MONGO_IS_COSMOSDB` | `true`, if server runs as [Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) instance. | `true` |
+| `MONGO_IS_LAZY` | If `true`, `MongoDatabase` will throw an error, if not enough configuration data is available, the first time an instance of it is used, instead the time an instance of it is created. | `true` |
 | `MONGO_URL` | The connection URL. | `mongodb://mongo.example.com:27017` |
 | `NATS_CLUSTER_ID` | The name of the cluster, that contains all microservices.                   | `my-cluster`                       |
 | `NATS_GROUP`      | The name of the pod group / Kubernetes deployment.                          | `my-service-or-deployment`         |

@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.22.0
+
+* add `MONGO_IS_LAZY`: if `true`, `MongoDatabase` will throw an error, if not enough configuration data is available, the first time an instance of it is used, instead the time an instance of it is created
+
 ## 0.21.0
 
 * add `loadEnv()` and `loadEnvSync()` functions
