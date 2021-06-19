@@ -63,7 +63,7 @@ export type WithMongoClientAction<TResult extends any = any> =
 
 const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
 const MONGO_DB = process.env.MONGO_DB?.trim();
-const MONGO_IS_LAZY = process.env.MONGO_URL?.toLowerCase().trim();
+const MONGO_IS_LAZY = process.env.MONGO_IS_LAZY?.toLowerCase().trim();
 const MONGO_URL = process.env.MONGO_URL?.trim();
 
 /**
