@@ -51,7 +51,7 @@ export async function loadEnv(dir: string, options?: ILoadEnvOptions): Promise<E
 
     for (const envFile of files) {
         const fullEnvPath = path.join(dir, envFile);
-        if (fs.existsSync(fullEnvPath)) {
+        if (!fs.existsSync(fullEnvPath)) {
             continue;
         }
 
@@ -86,7 +86,7 @@ export function loadEnvSync(dir: string, options?: ILoadEnvOptions): EnvVars {
 
     for (const envFile of files) {
         const fullEnvPath = path.join(dir, envFile);
-        if (fs.existsSync(fullEnvPath)) {
+        if (!fs.existsSync(fullEnvPath)) {
             continue;
         }
 
