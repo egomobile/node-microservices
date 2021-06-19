@@ -61,11 +61,6 @@ export type IMongoSchema = {
 export type WithMongoClientAction<TResult extends any = any> =
     (client: MongoDBClient, db: MongoDb) => Promise<TResult>;
 
-const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
-const MONGO_DB = process.env.MONGO_DB?.trim();
-const MONGO_IS_LAZY = process.env.MONGO_IS_LAZY?.toLowerCase().trim();
-const MONGO_URL = process.env.MONGO_URL?.trim();
-
 /**
  * A connection to a MongoDB database.
  */
@@ -78,6 +73,11 @@ export class MongoDatabase {
      * @param {IMongoDatabaseOptions} [options] Custom options.
      */
     constructor(options?: IMongoDatabaseOptions) {
+        const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
+        const MONGO_DB = process.env.MONGO_DB?.trim();
+        const MONGO_IS_LAZY = process.env.MONGO_IS_LAZY?.toLowerCase().trim();
+        const MONGO_URL = process.env.MONGO_URL?.trim();
+
         let isCosmosDB: boolean | undefined;
         let db: string | undefined;
         let url: string | undefined;
