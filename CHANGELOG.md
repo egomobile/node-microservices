@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.25.0
+
+* add `getBlobStorageClient()` and `getBlobStorageContainerClient()` functions
+
 ## 0.24.0
 
 * add `decodeJWT()` function

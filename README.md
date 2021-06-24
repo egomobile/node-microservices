@@ -104,6 +104,8 @@ app.listen(4242, () => {
 | `AZURE_AD_LOGGING_LEVEL` | Azure ADlogging level. Possible values are `error`, `info` or `warn`. | `info` |
 | `AZURE_AD_PASS_REQ_TO_CALLBACK` | `true` if Azure AD request should be passed to callback. | `false` |
 | `AZURE_AD_POLICY_NAME` | Azure AD policy name. | `my_policy` |
+| `AZURE_STORAGE_CONNECTION_*` | The string of the connection to the storage. | `DefaultEndpointsProtocol=https;....windows.net` |
+| `AZURE_STORAGE_CONNECTION_*_CONTAINER` | The name of the underlying container. | `my_container` |
 | `AZURE_AD_VALIDATE_ISSUER` | `true` if Azure AD issuer should be validated or not. | `false` |
 | `BCRYPT_ROUNDS`   | The number of rounds for bcrypt hashing. Default: `10`                      | `12`                               |
 | `JWT_SECRET`      | The secret for signing and validating JWT.                                  | `mySecretJWTSecret`                |
