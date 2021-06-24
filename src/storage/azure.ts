@@ -7,7 +7,7 @@ import type { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
  *
  * @returns {BlobServiceClient} The new client.
  */
-export function getBlobStorageClient(connection = '1'): BlobServiceClient {
+export function getAzureBlobStorageClient(connection = '1'): BlobServiceClient {
     const envVar = `AZURE_STORAGE_CONNECTION_${connection}`;
 
     const AZURE_STORAGE_CONNECTION = process.env[envVar]?.trim();
@@ -28,7 +28,7 @@ export function getBlobStorageClient(connection = '1'): BlobServiceClient {
  *
  * @returns {ContainerClient} The new client.
  */
-export function getBlobStorageContainerClient(connection = '1', container?: string): ContainerClient {
+export function getAzureBlobStorageContainerClient(connection = '1', container?: string): ContainerClient {
     if (arguments.length < 2) {
         const envVar = `AZURE_STORAGE_CONNECTION_${connection}_CONTAINER`;
 
@@ -44,6 +44,6 @@ export function getBlobStorageContainerClient(connection = '1', container?: stri
         throw new Error('No container specified');
     }
 
-    return getBlobStorageClient(connection)
+    return getAzureBlobStorageClient(connection)
         .getContainerClient(container);
 }
