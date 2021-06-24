@@ -1,6 +1,6 @@
 # Change Log (@egomobile/microservices)
 
-## 0.26.0
+## 0.26.1
 
 * **BREAKING CHANGE**: `getBlobStorageClient()` => `getAzureBlobStorageClient()`
 * **BREAKING CHANGE**: `getBlobStorageContainerClient()` => `getAzureBlobStorageContainerClient()`
