@@ -19,6 +19,8 @@
 
 /// <reference path="../index.d.ts" />
 
+import joi from 'joi';
+
 export * from './api';
 export * from './auth';
 export * from './constants';
@@ -29,3 +31,8 @@ export * from './express';
 export * from './nats';
 export * from './storage';
 export * from './utils';
+
+/**
+ * Namespace / link to 'joi' module, used by that library.
+ */
+export const schema = joi;

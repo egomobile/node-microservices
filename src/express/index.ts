@@ -15,57 +15,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Request, Response } from 'express';
-import { RequestHandler } from 'express';
-import { isTruely } from '../utils';
-
-/**
- * Custom options for 'withErrorHandler()' function.
- */
-export interface IWithErrorHandlerOptions {
-    /**
-     * Custom error handler.
-     *
-     * @param {any} error The error.
-     * @param {Request} request The request context.
-     * @param {Response} response The response context.
-     */
-    handler?: (error: any, request: Request, response: Response) => any;
-}
-
-/**
- * Wraps a request handler with an error handler.
- *
- * @param {RequestHandler} handler The handler to wrap.
- * @param {IWithErrorHandlerOptions} [options] Custom options.
- *
- * @returns {RequestHandler} The wrapper.
- */
-export function withErrorHandler(handler: RequestHandler, options?: IWithErrorHandlerOptions): RequestHandler {
-    let errorHandler = options?.handler;
-    if (!errorHandler) {  // use default?
-        errorHandler = (err, req, resp) => {
-            if (!resp.headersSent) {
-                resp.status(500);
-            }
-
-            if (isTruely(process.env.LOCAL_DEVELOPMENT)) {
-                return resp.send(`${err}`);
-            }
-
-            return resp.send();
-        };
-    }
-
-    return async (request, response, next) => {
-        try {
-            return await Promise.resolve(
-                handler(request, response, next)
-            );
-        } catch (ex) {
-            return Promise.resolve(
-                errorHandler!(ex, request as Request, response)
-            );
-        }
-    };
-}
+export * from './error';
+export * from './schema';

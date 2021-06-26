@@ -144,6 +144,49 @@ import { setupApplicationInsights } from '@egomobile/microservices';
 setupApplicationInsights();
 ```
 
+### Express
+
+#### Schema
+
+Use `schema` namespace, which is a link to embedded [joi](https://www.npmjs.com/package/joi) module, and build-in middlewares to validate input.
+
+```typescript
+import { schema, withDataURI, withSchema } from '@egomobile/microservices';
+
+interface IMySchema {
+    email?: string;
+    first_name: string;
+    last_name: string;
+}
+
+const mySchema = schema.object({
+    email: schema.string().strict().trim().email().optional()
+    first_name: schema.string().strict().trim().min(1).required()
+    last_name: schema.string().strict().trim().min(1).required()
+}).required();
+
+
+// withSchema() will automatically add
+// middleware, created by express.json()
+// with a limit of 128 MB
+app.post('/user/register', withSchema(mySchema), async (request, response) => {
+    const body: IMySchema = request.body;
+
+    // ...
+});
+
+// withDataURI() will automatically add middlewares
+// to parse the input
+app.put('/user/image', withDataURI(), async (request, response) => {
+    // data:<MIME>;base64,<BASE64-DATA>
+
+    const mime = request.headers['content-type'] as string;  // <MIME>
+    const body: Buffer = request.body;  // decoded <BASE64-DATA>
+
+    // ...
+});
+```
+
 ### MongoDB
 
 Use `MongoDatabase` class, which has simple support to handle [MongoDB](https://www.npmjs.com/package/mongodb) connections:

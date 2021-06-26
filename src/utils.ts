@@ -20,6 +20,16 @@ const nodeEnvProd = 'production';
 const nodeEnvTest = 'test';
 
 /**
+ * Custom options for 'readStream()' function.
+ */
+export interface IReadStreamOptions {
+    /**
+     * The custom string encoding. Default: 'utf8'
+     */
+    encoding?: BufferEncoding;
+}
+
+/**
  * Checks if NODE_ENV has a value of 'development'.
  *
  * @returns {boolean} Has a value of 'development' or not.
@@ -117,6 +127,27 @@ export function isTruely(val: any): boolean {
         default:
             return false;
     }
+}
+
+/**
+ * Reads the current content of a stream.
+ *
+ * @param {NodeJS.ReadableStream} stream The input stream.
+ * @param {IReadStreamOptions} options Custom options.
+ *
+ * @returns {Promise<Buffer>} The promise with the read data.
+ */
+export async function readStream(stream: NodeJS.ReadableStream, options?: IReadStreamOptions): Promise<Buffer> {
+    let data = Buffer.alloc(0);
+
+    for await (const chunk of stream) {
+        data = Buffer.concat([
+            data,
+            Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk, options?.encoding || 'utf8')
+        ]);
+    }
+
+    return data;
 }
 
 /**
