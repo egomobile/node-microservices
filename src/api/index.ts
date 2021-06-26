@@ -70,7 +70,7 @@ export class ApiResult<T extends any = any> implements IApiResult<T> {
      * @returns {ApiResult<T>} The new instance.
      */
     public static failed<T>(errors: ApiErrors | null, data?: T): ApiResult<T> {
-        return new ApiResult<T>(true, data, errors);
+        return new ApiResult<T>(false, data, errors);
     }
 
     /**

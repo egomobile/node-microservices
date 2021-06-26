@@ -1,11 +1,12 @@
 # Change Log (@egomobile/microservices)
 
-## 0.27.0
+## 0.27.1
 
 * **BREAKING CHANGE**: `withErrorHandler()` outputs extended error message, when in local development mode or in `development` node environment
 * add `readStream()`, `withDataURI()` and `withSchema()` functions
 * add `schema` namespace, that is a link to embedded [joi](https://www.npmjs.com/package/joi) module
 * code cleanups and improvements
+* bugfixes
 
 ## 0.26.1
 
