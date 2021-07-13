@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.30.0
+
+* `options` in `MongoDatabase` is protected now
+
 ## 0.29.0
 
 * **BREAKING CHANGE**: `ICreateSingletonMongoProviderOptions` now has only a `getClientOptions()` property

@@ -169,7 +169,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
  * A connection to a MongoDB database.
  */
 export class MongoDatabase {
-    private readonly options: Partial<IMongoDatabaseOptions>;
+    protected readonly options: Partial<IMongoDatabaseOptions>;
 
     /**
      * Initializes a new instance of that class.
