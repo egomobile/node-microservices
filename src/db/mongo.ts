@@ -15,7 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import pQueue from 'p-queue';
 import type { CollectionInsertManyOptions, Db as MongoDb, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
+
+/**
+ * Options for 'createSingletonMongoProvider()' function.
+ */
+export interface ICreateSingletonMongoProviderOptions {
+    /**
+     * The name of the database.
+     */
+    db: string;
+    /**
+     * The connection url.
+     */
+    url: string;
+}
 
 /**
  * Options for 'MongoDatabase' class.
@@ -34,6 +49,13 @@ export interface IMongoDatabaseOptions {
      */
     url: string;
 }
+
+/**
+ * Creates function that provides a MongoDB client.
+ *
+ * @returns {Promise<MongoDBClient>} The promise with the new connection.
+ */
+export type MongoClientProvider = () => Promise<MongoDBClient>;
 
 /**
  * A MongoDB document.
@@ -60,6 +82,78 @@ export type IMongoSchema = {
  */
 export type WithMongoClientAction<TResult extends any = any> =
     (client: MongoDBClient, db: MongoDb) => Promise<TResult>;
+
+/**
+ * Creates a new function, that provides a singleton Mongo client connection.
+ *
+ * @param {ICreateSingletonMongoProviderOptions} options The options.
+ *
+ * @returns {MongoClientProvider} The new function.
+ */
+export function createSingletonMongoClientProvider(options: ICreateSingletonMongoProviderOptions): MongoClientProvider {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { MongoClient } = require('mongodb');
+
+    const { db, url } = options;
+
+    let client: MongoDBClient | null = null;
+    const queue = new pQueue({
+        autoStart: true,
+        concurrency: 1
+    });
+
+    const reopen = async () => {
+        try {
+            let oldClient = client;
+            client = null;
+
+            if (oldClient && oldClient.isConnected()) {
+                try {
+                    await oldClient.close();
+                } catch { }
+            }
+
+            const newClient: MongoDBClient = await MongoClient.connect(url, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+            await newClient.connect();
+
+            client = newClient;
+        } catch (ex) {
+            client = null;
+
+            throw ex;
+        }
+    };
+
+    return () => queue.add(async () => {
+        let shouldRetry = true;
+
+        try {
+            let currentDb = client;
+            if (currentDb) {
+                // test connection
+                await currentDb.db(db)
+                    .collections();
+
+                return currentDb;
+            } else {
+                shouldRetry = false;
+
+                await reopen();
+            }
+        } catch (ex) {
+            if (shouldRetry) {
+                await reopen();
+            } else {
+                throw ex;
+            }
+        }
+
+        return client!;
+    });
+}
 
 /**
  * A connection to a MongoDB database.

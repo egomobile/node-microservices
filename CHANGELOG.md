@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.28.0
+
+* add `createSingletonMongoClientProvider()` function
+* `npm update`
+
 ## 0.27.1
 
 * **BREAKING CHANGE**: `withErrorHandler()` outputs extended error message, when in local development mode or in `development` node environment
