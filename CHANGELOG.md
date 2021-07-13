@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.31.0
+
+* remove [p-queue](https://www.npmjs.com/package/p-queue) module
+
 ## 0.30.1
 
 * `options` in `MongoDatabase` is protected now

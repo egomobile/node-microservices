@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const pQueue = require('p-queue').default;
 import type { CollectionInsertManyOptions, Db as MongoDb, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
 
 /**
@@ -94,10 +93,6 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
 
     let client: MongoDBClient | null = null;
     let clientOptions: IMongoDatabaseOptions | null = null;
-    const queue = new pQueue({
-        autoStart: true,
-        concurrency: 1
-    });
 
     const reopen = async () => {
         try {
@@ -132,7 +127,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
         }
     };
 
-    return () => queue.add(async () => {
+    return async () => {
         let shouldRetry = false;
 
         try {
@@ -162,7 +157,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
         }
 
         return client!;
-    });
+    };
 }
 
 /**
