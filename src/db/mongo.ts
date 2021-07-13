@@ -23,13 +23,11 @@ import type { CollectionInsertManyOptions, Db as MongoDb, FilterQuery, FindOneOp
  */
 export interface ICreateSingletonMongoProviderOptions {
     /**
-     * The name of the database.
+     * A function, that provides the options for the singleton.
+     *
+     * @returns {IMongoDatabaseOptions | Promise<IMongoDatabaseOptions>} The options or the promise with the options.
      */
-    db: string;
-    /**
-     * The connection url.
-     */
-    url: string;
+    getClientOptions: () => IMongoDatabaseOptions | Promise<IMongoDatabaseOptions>;
 }
 
 /**
@@ -94,9 +92,8 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { MongoClient } = require('mongodb');
 
-    const { db, url } = options;
-
     let client: MongoDBClient | null = null;
+    let clientOptions: IMongoDatabaseOptions | null = null;
     const queue = new pQueue({
         autoStart: true,
         concurrency: 1
@@ -113,6 +110,13 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
                 } catch { }
             }
 
+            const newClientOptions = await Promise.resolve(options.getClientOptions());
+
+            const url = newClientOptions.url?.trim();
+            if (!url?.length) {
+                throw new Error('No Mongo url defined');
+            }
+
             const newClient: MongoDBClient = await MongoClient.connect(url, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
@@ -120,6 +124,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
             await newClient.connect();
 
             client = newClient;
+            clientOptions = newClientOptions;
         } catch (ex) {
             client = null;
 
@@ -128,19 +133,24 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
     };
 
     return () => queue.add(async () => {
-        let shouldRetry = true;
+        let shouldRetry = false;
 
         try {
             let currentDb = client;
             if (currentDb) {
+                const db = clientOptions!.db?.trim();
+                if (!db?.length) {
+                    throw new Error('No Mongo database defined');
+                }
+
+                shouldRetry = true;
+
                 // test connection
                 await currentDb.db(db)
                     .collections();
 
                 return currentDb;
             } else {
-                shouldRetry = false;
-
                 await reopen();
             }
         } catch (ex) {

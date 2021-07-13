@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.29.0
+
+* **BREAKING CHANGE**: `ICreateSingletonMongoProviderOptions` now has only a `getClientOptions()` property
+
 ## 0.28.0
 
 * add `createSingletonMongoClientProvider()` function
