@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import pQueue from 'p-queue';
+const pQueue = require('p-queue').default;
 import type { CollectionInsertManyOptions, Db as MongoDb, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
 
 /**

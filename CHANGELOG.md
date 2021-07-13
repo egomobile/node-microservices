@@ -1,8 +1,9 @@
 # Change Log (@egomobile/microservices)
 
-## 0.30.0
+## 0.30.1
 
 * `options` in `MongoDatabase` is protected now
+* bugfixes
 
 ## 0.29.0
 
