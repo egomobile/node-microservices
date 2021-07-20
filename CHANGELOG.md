@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.32.0
+
+* add `getMicrosoftMe()` and `tryGetMicrosoftMe()` functions
+* add `RequestError` error class
+
 ## 0.31.0
 
 * remove [p-queue](https://www.npmjs.com/package/p-queue) module

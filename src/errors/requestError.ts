@@ -1,5 +1,3 @@
-/* eslint-disable spaced-comment */
-
 /**
  * This file is part of the @egomobile/microservices distribution.
  * Copyright (c) Next.e.GO Mobile SE, Aachen, Germany (https://e-go-mobile.com/)
@@ -17,23 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/// <reference path="../index.d.ts" />
-
-import joi from 'joi';
-
-export * from './api';
-export * from './auth';
-export * from './constants';
-export * from './db';
-export * from './diagnostics';
-export * from './env';
-export * from './errors';
-export * from './express';
-export * from './nats';
-export * from './storage';
-export * from './utils';
-
 /**
- * Namespace / link to 'joi' module, used by that library.
+ * A request error.
  */
-export const schema = joi;
+export class RequestError extends Error {
+    /**
+     * Initializes a new instance of that class.
+     *
+     * @param {any} response The response / error.
+     * @param {string} [message] The custom message.
+     */
+    public constructor(public readonly response: any, message?: string) {
+        super(message);
+    }
+}
