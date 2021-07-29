@@ -106,7 +106,9 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
 
     const resetClient = async () => {
         await tryCloseConnection();
+
         client = null;
+        clientOptions = null;
     };
 
     const reopen = async () => {
@@ -129,7 +131,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
             client = newClient;
             clientOptions = newClientOptions;
         } catch (ex) {
-            client = null;
+            await resetClient();
 
             throw ex;
         }
