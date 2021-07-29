@@ -110,14 +110,13 @@ function getOptions(): IMailOptions {
  * Send an email
  *
  * @param {string} subject the subject
- * @param {string} body the text
+ * @param {string} body the body
  * @param {ISendMailOptions} [options] additional options
  *
  * @return {Promise<void>}
  */
 export async function sendMail(subject: string, body: string, options?: ISendMailOptions) {
     const mailOptions: IMailOptions = getOptions();
-
     const shouldUseHTML = !!options?.html;
 
     let transporter = nodemailer.createTransport({
