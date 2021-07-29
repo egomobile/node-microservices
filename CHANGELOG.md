@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.33.0
+
+* add `sendMail()` function
+
 ## 0.32.0
 
 * add `getMicrosoftMe()` and `tryGetMicrosoftMe()` functions
