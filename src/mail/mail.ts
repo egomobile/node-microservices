@@ -52,6 +52,16 @@ export interface IMailOptions {
 }
 
 /**
+ * Additional options for 'sendMail()' function.
+ */
+export interface ISendMailOptions {
+    /**
+     * Use HTML instead of plain text or not.
+     */
+    html?: boolean;
+}
+
+/**
  * Get all options.
  *
  * @returns {IMailOptions} the options
@@ -100,27 +110,31 @@ function getOptions(): IMailOptions {
  * Send an email
  *
  * @param {string} subject the subject
- * @param {string} text the text
+ * @param {string} body the text
+ * @param {ISendMailOptions} [options] additional options
  *
- * @return {void}
+ * @return {Promise<void>}
  */
-export async function sendMail(subject: string, text: string) {
-    const options: IMailOptions = getOptions();
+export async function sendMail(subject: string, body: string, options?: ISendMailOptions) {
+    const mailOptions: IMailOptions = getOptions();
+
+    const shouldUseHTML = !!options?.html;
 
     let transporter = nodemailer.createTransport({
-        host: options.emailHost,
-        port: options.emailPort,
-        secure: options.emailSecure,
-        auth: options.emailUser && options.emailPassword ? {
-            user: options.emailUser,
-            pass: options.emailPassword
+        host: mailOptions.emailHost,
+        port: mailOptions.emailPort,
+        secure: mailOptions.emailSecure,
+        auth: mailOptions.emailUser && mailOptions.emailPassword ? {
+            user: mailOptions.emailUser,
+            pass: mailOptions.emailPassword
         } : undefined
     });
 
     await transporter.sendMail({
-        from: options.emailFrom,
-        to: options.emailTo,
+        from: mailOptions.emailFrom,
+        to: mailOptions.emailTo,
         subject: subject,
-        text: text
+        html: shouldUseHTML ? body : undefined,
+        text: shouldUseHTML ? undefined : body
     });
 }
