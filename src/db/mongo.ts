@@ -94,16 +94,24 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
     let client: MongoDBClient | null = null;
     let clientOptions: IMongoDatabaseOptions | null = null;
 
+    const tryCloseConnection = async () => {
+        const oldClient = client;
+
+        if (oldClient && oldClient.isConnected()) {
+            try {
+                await oldClient.close();
+            } catch { }
+        }
+    };
+
+    const resetClient = async () => {
+        await tryCloseConnection();
+        client = null;
+    };
+
     const reopen = async () => {
         try {
-            let oldClient = client;
-            client = null;
-
-            if (oldClient && oldClient.isConnected()) {
-                try {
-                    await oldClient.close();
-                } catch { }
-            }
+            await resetClient();
 
             const newClientOptions = await Promise.resolve(options.getClientOptions());
 
@@ -152,6 +160,8 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
             if (shouldRetry) {
                 await reopen();
             } else {
+                await resetClient();
+
                 throw ex;
             }
         }
