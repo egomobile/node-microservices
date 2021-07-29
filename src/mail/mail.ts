@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Transporter } from 'nodemailer';
-
 const nodemailer = require('nodemailer');
 
 /**
@@ -54,105 +52,75 @@ export interface IMailOptions {
 }
 
 /**
- * Sending a Mail via nodemailer.
+ * Get all options.
+ *
+ * @returns {IMailOptions} the options
  */
-export class Mail {
-    protected readonly options: Partial<IMailOptions>;
-    protected readonly transporter: Transporter;
+function getOptions(): IMailOptions {
+    const EMAIL_HOST = process.env.EMAIL_HOST?.trim();
+    const EMAIL_PORT = process.env.EMAIL_PORT?.trim();
+    const EMAIL_SECURE = process.env.EMAIL_SECURE?.toLowerCase().trim();
+    const EMAIL_USER = process.env.EMAIL_FROM?.trim();
+    const EMAIL_PASSWORD = process.env.EMAIL_FROM?.trim();
+    const EMAIL_FROM = process.env.EMAIL_FROM?.trim();
+    const EMAIL_TO = process.env.EMAIL_TO?.trim();
 
-    /**
-     * Initializes a new instance of that class.
-     *
-     * @param {IMailOptions} [options] Custom options.
-     */
-    constructor(options?: IMailOptions) {
-        const EMAIL_HOST = process.env.EMAIL_HOST?.trim();
-        const EMAIL_PORT = process.env.EMAIL_PORT?.trim();
-        const EMAIL_SECURE = process.env.EMAIL_SECURE?.toLowerCase().trim();
-        const EMAIL_USER = process.env.EMAIL_FROM?.trim();
-        const EMAIL_PASSWORD = process.env.EMAIL_FROM?.trim();
-        const EMAIL_FROM = process.env.EMAIL_FROM?.trim();
-        const EMAIL_TO = process.env.EMAIL_TO?.trim();
+    let emailHost: string | undefined = EMAIL_HOST;
+    let emailPort: number | undefined = Number(EMAIL_PORT);
+    let isEmailSecure: boolean | undefined = Boolean(EMAIL_SECURE);
+    let emailUser: string | undefined = EMAIL_USER;
+    let emailPassword: string | undefined = EMAIL_PASSWORD;
+    let emailFrom: string | undefined = EMAIL_FROM;
+    let emailTo: string | undefined = EMAIL_TO;
 
-        let emailHost: string | undefined;
-        let emailPort: number | undefined;
-        let isEmailSecure: boolean | undefined;
-        let emailUser: string | undefined;
-        let emailPassword: string | undefined;
-        let emailFrom: string | undefined;
-        let emailTo: string | undefined;
-
-        if (options) {
-            emailHost = options.emailHost;
-            emailPort = options.emailPort;
-            isEmailSecure = options.emailSecure;
-            emailUser = options.emailUser;
-            emailPassword = options.emailPassword;
-            emailFrom = options.emailFrom;
-            emailTo = options.emailTo;
-        } else {
-            emailHost = EMAIL_HOST;
-            emailPort = Number(EMAIL_PORT);
-            isEmailSecure = Boolean(EMAIL_SECURE);
-            emailUser = EMAIL_USER;
-            emailPassword = EMAIL_PASSWORD;
-            emailFrom = EMAIL_FROM;
-            emailTo = EMAIL_TO;
-        }
-
-        this.options = {
-            emailHost: emailHost,
-            emailPort: emailPort ? emailPort : 25,
-            emailSecure: typeof isEmailSecure === 'undefined' ? false : isEmailSecure,
-            emailUser: emailUser ? emailUser : undefined,
-            emailPassword: emailPassword ? emailPassword : undefined,
-            emailFrom: emailFrom,
-            emailTo: emailTo
-        };
-
-        this.checkOptionsOrThrow();
-
-        this.transporter = nodemailer.createTransport({
-            host: this.options.emailHost,
-            port: this.options.emailPort,
-            secure: this.options.emailSecure,
-            auth: {
-                user: this.options.emailUser,
-                pass: this.options.emailPassword
-            }
-        });
+    if (!emailHost?.length) {
+        throw new Error('No EMAIL_HOST defined');
     }
 
-    private checkOptionsOrThrow() {
-        const { emailHost, emailFrom, emailTo } = this.options;
-
-        if (!emailHost?.length) {
-            throw new Error('No EMAIL_HOST defined');
-        }
-
-        if (!emailFrom?.length) {
-            throw new Error('No EMAIL_FROM defined');
-        }
-
-        if (!emailTo?.length) {
-            throw new Error('No EMAIL_TO defined');
-        }
+    if (!emailFrom?.length) {
+        throw new Error('No EMAIL_FROM defined');
     }
 
-    /**
-     * Send an email
-     *
-     * @param {string} subject the subject
-     * @param {string} text the text
-     *
-     * @return {void}
-     */
-    public async sendMail(subject: string, text: string) {
-        await this.transporter.sendMail({
-            from: this.options.emailFrom,
-            to: this.options.emailTo,
-            subject: subject,
-            text: text
-        });
+    if (!emailTo?.length) {
+        throw new Error('No EMAIL_TO defined');
     }
+
+    return {
+        emailHost: emailHost!,
+        emailPort: emailPort ? emailPort : 25,
+        emailSecure: typeof isEmailSecure === 'undefined' ? false : isEmailSecure,
+        emailUser: emailUser ? emailUser : undefined,
+        emailPassword: emailPassword ? emailPassword : undefined,
+        emailFrom: emailFrom!,
+        emailTo: emailTo!
+    };
+}
+
+/**
+ * Send an email
+ *
+ * @param {string} subject the subject
+ * @param {string} text the text
+ *
+ * @return {void}
+ */
+export async function sendMail(subject: string, text: string) {
+    const options: IMailOptions = getOptions();
+
+    let transporter = nodemailer.createTransport({
+        host: options.emailHost,
+        port: options.emailPort,
+        secure: options.emailSecure,
+        auth: options.emailUser && options.emailPassword ? {
+            user: options.emailUser,
+            pass: options.emailPassword
+        } : undefined
+    });
+
+    await transporter.sendMail({
+        from: options.emailFrom,
+        to: options.emailTo,
+        subject: subject,
+        text: text
+    });
 }
