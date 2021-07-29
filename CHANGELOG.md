@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.35.0
+
+* `checkOptionsOrThrow()` method of `MongoDatabase` class can be overwritten now
+* `npm update`
+
 ## 0.34.3
 
 * add additional options for `sendMail()` function

@@ -213,7 +213,10 @@ export class MongoDatabase {
         }
     }
 
-    private checkOptionsOrThrow() {
+    /**
+     * Check if options are valid and throw an error if not.
+     */
+    protected checkOptionsOrThrow() {
         const { db, url } = this.options;
 
         if (!db?.length) {
