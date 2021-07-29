@@ -117,8 +117,8 @@ export class Mail {
             port: this.options.emailPort,
             secure: this.options.emailSecure,
             auth: {
-                user: process.env.EMAIL_FROM,
-                pass: process.env.EMAIL_PASSWORD
+                user: this.options.emailUser,
+                pass: this.options.emailPassword
             }
         });
     }
