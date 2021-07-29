@@ -54,9 +54,9 @@ export interface IMailOptions {
 }
 
 /**
- * A connection to a MongoDB database.
+ * Sending a Mail via nodemailer.
  */
-export class MongoDatabase {
+export class Mail {
     protected readonly options: Partial<IMailOptions>;
     protected readonly transporter: Transporter;
 
