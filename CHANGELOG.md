@@ -1,5 +1,13 @@
 # Change Log (@egomobile/microservices)
 
+## 0.33.2
+
+* `sendmail` as one function
+
+## 0.33.1
+
+* fix `Mail` class constructor
+
 ## 0.33.0
 
 * add `sendMail()` function
