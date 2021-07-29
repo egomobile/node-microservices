@@ -1,6 +1,6 @@
 # Change Log (@egomobile/microservices)
 
-## 0.34.1
+## 0.34.2
 
 * add additional options for `sendMail()` function
 * bugfixes
