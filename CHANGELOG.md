@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.35.1
+
+* fix mail exports
+
 ## 0.35.0
 
 * `checkOptionsOrThrow()` method of `MongoDatabase` class can be overwritten now
