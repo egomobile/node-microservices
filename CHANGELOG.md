@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.35.2
+
+* fix mail password and secure parameters
+
 ## 0.35.1
 
 * fix mail exports
