@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.36
+
+* add timestamp to logger
+
 ## 0.35.2
 
 * fix mail password and secure parameters
