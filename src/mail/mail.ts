@@ -15,6 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { isTruely } from '../utils';
+
 const nodemailer = require('nodemailer');
 
 /**
@@ -71,13 +73,13 @@ function getOptions(): IMailOptions {
     const EMAIL_PORT = process.env.EMAIL_PORT?.trim();
     const EMAIL_SECURE = process.env.EMAIL_SECURE?.toLowerCase().trim();
     const EMAIL_USER = process.env.EMAIL_FROM?.trim();
-    const EMAIL_PASSWORD = process.env.EMAIL_FROM?.trim();
+    const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD?.trim();
     const EMAIL_FROM = process.env.EMAIL_FROM?.trim();
     const EMAIL_TO = process.env.EMAIL_TO?.trim();
 
     let emailHost: string | undefined = EMAIL_HOST;
     let emailPort: number | undefined = Number(EMAIL_PORT);
-    let isEmailSecure: boolean | undefined = Boolean(EMAIL_SECURE);
+    let isEmailSecure: boolean | undefined = isTruely(EMAIL_SECURE);
     let emailUser: string | undefined = EMAIL_USER;
     let emailPassword: string | undefined = EMAIL_PASSWORD;
     let emailFrom: string | undefined = EMAIL_FROM;
