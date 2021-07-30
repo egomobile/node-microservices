@@ -29,6 +29,7 @@ export * from './diagnostics';
 export * from './env';
 export * from './errors';
 export * from './express';
+export * from './mail';
 export * from './nats';
 export * from './storage';
 export * from './utils';
