@@ -16,8 +16,8 @@
  */
 
 import { isTruely } from '../utils';
-
-const nodemailer = require('nodemailer');
+import type { Transporter } from 'nodemailer';
+import type { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 
 /**
  * Options for 'Mail' class.
@@ -115,13 +115,15 @@ function getOptions(): IMailOptions {
  * @param {string} body the body
  * @param {ISendMailOptions} [options] additional options
  *
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
-export async function sendMail(subject: string, body: string, options?: ISendMailOptions) {
+export async function sendMail(subject: string, body: string, options?: ISendMailOptions): Promise<void> {
+    const nodemailer = require('nodemailer');
+
     const mailOptions: IMailOptions = getOptions();
     const shouldUseHTML = !!options?.html;
 
-    let transporter = nodemailer.createTransport({
+    const transporter: Transporter<SentMessageInfo> = nodemailer.createTransport({
         host: mailOptions.emailHost,
         port: mailOptions.emailPort,
         secure: mailOptions.emailSecure,
