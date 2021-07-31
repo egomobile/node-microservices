@@ -5,6 +5,7 @@
 * **BREAKING CHANGE**: move [nodemailer](https://www.npmjs.com/package/nodemailer) to [peer dependencies](https://nodejs.org/es/blog/npm/peer-dependencies/)
 * code cleanups and improvements
 * fix `README.md`
+* fix `setupApplicationInsights()` function
 * `npm update`
 
 ## 0.36.0
