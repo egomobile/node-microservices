@@ -1,6 +1,14 @@
 # Change Log (@egomobile/microservices)
 
-## 0.36
+## 0.37.0
+
+* **BREAKING CHANGE**: move [nodemailer](https://www.npmjs.com/package/nodemailer) to [peer dependencies](https://nodejs.org/es/blog/npm/peer-dependencies/)
+* code cleanups and improvements
+* fix `README.md`
+* fix `setupApplicationInsights()` function
+* `npm update`
+
+## 0.36.0
 
 * add timestamp to logger
 

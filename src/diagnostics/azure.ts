@@ -25,7 +25,7 @@ import { isLocalDev } from '../utils';
 export function setupApplicationInsights() {
     const APPLICATION_INSIGHTS_KEY = process.env.APPLICATION_INSIGHTS_KEY?.trim();
 
-    if (isLocalDev() && APPLICATION_INSIGHTS_KEY?.length) {
+    if (!isLocalDev() && APPLICATION_INSIGHTS_KEY?.length) {
         const applicationInsights = require('applicationinsights');
 
         applicationInsights.setup(APPLICATION_INSIGHTS_KEY).start();
