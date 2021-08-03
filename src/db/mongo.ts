@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { CollectionInsertManyOptions, Db as MongoDb, FilterQuery, FindOneOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, WithoutProjection } from 'mongodb';
+import type { CollectionInsertManyOptions, CommonOptions, Db as MongoDb, FilterQuery, FindOneOptions, IndexOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, UpdateManyOptions, UpdateOneOptions, UpdateQuery, UpdateWriteOpResult, WithoutProjection, WriteOpResult } from 'mongodb';
 
 /**
  * Options for 'createSingletonMongoProvider()' function.
@@ -258,6 +258,23 @@ export class MongoDatabase {
     }
 
     /**
+     * Create an index on a collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {any} fieldOrSpec The field or spec.
+     * @param {IndexOptions} [options] Custom options.
+     * @returns {Promise<string>} The promise with the result.
+     */
+    public createIndex(collectionName: string, fieldOrSpec: any, options?: IndexOptions | undefined): Promise<string> {
+        return this.withClient(client => {
+            const db = client.db(this.options.db!);
+            const collection = db.collection(collectionName);
+
+            return collection.createIndex(fieldOrSpec, options);
+        });
+    }
+
+    /**
      * Does a find on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
@@ -317,6 +334,59 @@ export class MongoDatabase {
             const collection = db.collection(collectionName);
 
             return collection.insertMany(docs, options);
+        });
+    }
+
+    /**
+     * Remove a document from a MongoDB collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {object} selector The selector.
+     * @param {CommonOptions} [options] Custom options.
+     * @returns {Promise<WriteOpResult>} The promise with the result.
+     */
+    public remove(collectionName: string, selector: object, options?: CommonOptions): Promise<WriteOpResult> {
+        return this.withClient(client => {
+            const db = client.db(this.options.db!);
+            const collection = db.collection(collectionName);
+
+            return collection.remove(selector, options);
+        });
+    }
+
+    /**
+     * Update documents in a MongoDB collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {FilterQuery<T>} filter The filter for the documents.
+     * @param {UpdateQuery<T>} update The update query for the documents.
+     * @param {UpdateManyOptions} [options] Custom options.
+     * @returns {Promise<WriteOpResult>} The promise with the result.
+     */
+    public update<T = IMongoSchema>(collectionName: string, filter: FilterQuery<T>, update: UpdateQuery<T>, options?: UpdateManyOptions): Promise<WriteOpResult> {
+        return this.withClient(client => {
+            const db = client.db(this.options.db!);
+            const collection = db.collection(collectionName);
+
+            return collection.update(filter, update, options);
+        });
+    }
+
+    /**
+     * Update one document in a MongoDB collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {FilterQuery<T>} filter The filter for the document.
+     * @param {UpdateQuery<T>} update The update query for the document.
+     * @param {UpdateManyOptions} [options] Custom options.
+     * @returns {Promise<UpdateWriteOpResult>} The promise with the result.
+     */
+    public updateOne<T = IMongoSchema>(collectionName: string, filter: FilterQuery<T>, update: UpdateQuery<T>, options?: UpdateOneOptions): Promise<UpdateWriteOpResult> {
+        return this.withClient(client => {
+            const db = client.db(this.options.db!);
+            const collection = db.collection(collectionName);
+
+            return collection.updateOne(filter, update, options);
         });
     }
 

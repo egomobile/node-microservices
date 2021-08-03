@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.38.0
+
+* add `createIndex()`, `remove()`, `update()` and `updateOne()` to `MongoDatabase` class.
+
 ## 0.37.0
 
 * **BREAKING CHANGE**: move [nodemailer](https://www.npmjs.com/package/nodemailer) to [peer dependencies](https://nodejs.org/es/blog/npm/peer-dependencies/)
