@@ -1,6 +1,6 @@
 {
     "name": "@egomobile/microservices",
-    "version": "0.38.0",
+    "version": "0.39.0",
     "description": "Shared library for microservices, written for Node.js",
     "author": "Next.e.GO Mobile SE, Aachen, Germany",
     "license": "LGPL-3.0",

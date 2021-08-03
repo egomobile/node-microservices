@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.39.0
+
+* add `deleteOne()` and `deleteMany()` instead of deprecated `remove()` to `MongoDatabase` class
+
 ## 0.38.0
 
 * add `createIndex()`, `remove()`, `update()` and `updateOne()` to `MongoDatabase` class

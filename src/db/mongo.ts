@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { CollectionInsertManyOptions, CommonOptions, Db as MongoDb, FilterQuery, FindOneOptions, IndexOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, UpdateManyOptions, UpdateOneOptions, UpdateQuery, UpdateWriteOpResult, WithoutProjection, WriteOpResult } from 'mongodb';
+import type { CollectionInsertManyOptions, CommonOptions, Db as MongoDb, DeleteWriteOpResultObject, FilterQuery, FindOneOptions, IndexOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, UpdateManyOptions, UpdateOneOptions, UpdateQuery, UpdateWriteOpResult, WithoutProjection, WriteOpResult } from 'mongodb';
 
 /**
  * Options for 'createSingletonMongoProvider()' function.
@@ -275,6 +275,40 @@ export class MongoDatabase {
     }
 
     /**
+     * Delete a document from a MongoDB collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {FilterQuery<any>} filter The filter.
+     * @param {CommonOptions} [options] Custom options.
+     * @returns {Promise<DeleteWriteOpResultObject>} The promise with the result.
+     */
+    public deleteOne(collectionName: string, filter: FilterQuery<any>, options?: CommonOptions): Promise<DeleteWriteOpResultObject> {
+        return this.withClient(client => {
+            const db = client.db(this.options.db!);
+            const collection = db.collection(collectionName);
+
+            return collection.deleteOne(filter, options);
+        });
+    }
+
+    /**
+     * Delete documents from a MongoDB collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {FilterQuery<any>} filter The filter.
+     * @param {CommonOptions} [options] Custom options.
+     * @returns {Promise<DeleteWriteOpResultObject>} The promise with the result.
+     */
+    public deleteMany(collectionName: string, filter: FilterQuery<any>, options?: CommonOptions): Promise<DeleteWriteOpResultObject> {
+        return this.withClient(client => {
+            const db = client.db(this.options.db!);
+            const collection = db.collection(collectionName);
+
+            return collection.deleteMany(filter, options);
+        });
+    }
+
+    /**
      * Does a find on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
@@ -334,23 +368,6 @@ export class MongoDatabase {
             const collection = db.collection(collectionName);
 
             return collection.insertMany(docs, options);
-        });
-    }
-
-    /**
-     * Remove a document from a MongoDB collection.
-     *
-     * @param {string} collectionName The collection's name.
-     * @param {object} selector The selector.
-     * @param {CommonOptions} [options] Custom options.
-     * @returns {Promise<WriteOpResult>} The promise with the result.
-     */
-    public remove(collectionName: string, selector: object, options?: CommonOptions): Promise<WriteOpResult> {
-        return this.withClient(client => {
-            const db = client.db(this.options.db!);
-            const collection = db.collection(collectionName);
-
-            return collection.remove(selector, options);
         });
     }
 
