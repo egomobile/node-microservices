@@ -2,7 +2,7 @@
 
 ## 0.38.0
 
-* add `createIndex()`, `remove()`, `update()` and `updateOne()` to `MongoDatabase` class.
+* add `createIndex()`, `remove()`, `update()` and `updateOne()` to `MongoDatabase` class
 
 ## 0.37.0
 
