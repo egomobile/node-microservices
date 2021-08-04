@@ -45,6 +45,10 @@ export interface IMongoDatabaseOptions {
      * The URI.
      */
     url: string;
+    /**
+     * Relax TLS constraints.
+     */
+    isTlsInsecure?: boolean;
 }
 
 /**
@@ -188,24 +192,29 @@ export class MongoDatabase {
         const MONGO_DB = process.env.MONGO_DB?.trim();
         const MONGO_IS_LAZY = process.env.MONGO_IS_LAZY?.toLowerCase().trim();
         const MONGO_URL = process.env.MONGO_URL?.trim();
+        const TLS_INSECURE = process.env.TLS_INSECURE?.toLowerCase().trim();
 
         let isCosmosDB: boolean | undefined;
         let db: string | undefined;
         let url: string | undefined;
+        let isTlsInsecure: boolean | undefined;
         if (options) {
             isCosmosDB = options.isCosmosDB;
             db = options.db;
             url = options.url;
+            isTlsInsecure = options.isTlsInsecure;
         } else {
             isCosmosDB = MONGO_IS_COSMOSDB === 'true';
             db = MONGO_DB;
             url = MONGO_URL;
+            isTlsInsecure = TLS_INSECURE === 'true';
         }
 
         this.options = {
             db,
             isCosmosDB: !!isCosmosDB,
-            url
+            url,
+            isTlsInsecure: !!isTlsInsecure
         };
 
         if (MONGO_IS_LAZY !== 'true') {
@@ -425,7 +434,8 @@ export class MongoDatabase {
 
         const client: MongoDBClient = await MongoClient.connect(this.options.url!, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            tlsInsecure: this.options.isTlsInsecure
         });
 
         try {
