@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.40.0
+
+* relax tls option by `TLS_INSECURE` or handing over options
+
 ## 0.39.0
 
 * add `deleteOne()` and `deleteMany()` instead of deprecated `remove()` to `MongoDatabase` class
