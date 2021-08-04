@@ -214,16 +214,16 @@ export class MongoDatabase {
             isCosmosDB = MONGO_IS_COSMOSDB === 'true';
             db = MONGO_DB;
             url = MONGO_URL;
-            isTls = MONGO_TLS === 'true';
-            isTlsInsecure = MONGO_TLS_INSECURE === 'true';
+            isTls = MONGO_TLS?.length ? MONGO_TLS === 'true' : undefined;
+            isTlsInsecure = MONGO_TLS_INSECURE?.length ? MONGO_TLS_INSECURE === 'true' : undefined;
         }
 
         this.options = {
             db,
             isCosmosDB: !!isCosmosDB,
             url,
-            isTls: !!isTls,
-            isTlsInsecure: !!isTlsInsecure
+            isTls,
+            isTlsInsecure
         };
 
         if (MONGO_IS_LAZY !== 'true') {

@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.43.0
+
+* `MONGO_TLS` and `MONGO_TLS_INSECURE` are submitted as undefined, if empty
+
 ## 0.41.0
 
 * rename `TLS_INSECURE` to `MONGO_TLS_INSECURE`

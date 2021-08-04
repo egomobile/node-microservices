@@ -1,6 +1,6 @@
 {
     "name": "@egomobile/microservices",
-    "version": "0.41.0",
+    "version": "0.43.0",
     "description": "Shared library for microservices, written for Node.js",
     "author": "Next.e.GO Mobile SE, Aachen, Germany",
     "license": "LGPL-3.0",
@@ -60,16 +60,16 @@
         "axios": "^0.21.1",
         "bcryptjs": "^2.4.3",
         "dotenv": "^10.0.0",
-        "joi": "^17.4.1",
+        "joi": "^17.4.2",
         "jsonwebtoken": "^8.5.1",
         "node-nats-streaming": "^0.3.2",
         "winston": "^3.3.3",
         "winston-transport": "^4.4.0"
     },
     "devDependencies": {
-        "@azure/storage-blob": "^12.6.0",
+        "@azure/storage-blob": "^12.7.0",
         "@egomobile/tsconfig": "^5.0.0",
-        "@types/node": "^12.20.17",
+        "@types/node": "^12.20.18",
         "@types/nodemailer": "^6.4.4",
         "del-cli": "^3.0.1",
         "eslint": "^7.32.0",
