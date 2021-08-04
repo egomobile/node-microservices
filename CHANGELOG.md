@@ -3,6 +3,7 @@
 ## 0.41.0
 
 * rename `TLS_INSECURE` to `MONGO_TLS_INSECURE`
+* add `MONGO_TLS` option
 
 ## 0.40.0
 
