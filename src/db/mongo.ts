@@ -192,7 +192,7 @@ export class MongoDatabase {
         const MONGO_DB = process.env.MONGO_DB?.trim();
         const MONGO_IS_LAZY = process.env.MONGO_IS_LAZY?.toLowerCase().trim();
         const MONGO_URL = process.env.MONGO_URL?.trim();
-        const TLS_INSECURE = process.env.TLS_INSECURE?.toLowerCase().trim();
+        const MONGO_TLS_INSECURE = process.env.MONGO_TLS_INSECURE?.toLowerCase().trim();
 
         let isCosmosDB: boolean | undefined;
         let db: string | undefined;
@@ -207,7 +207,7 @@ export class MongoDatabase {
             isCosmosDB = MONGO_IS_COSMOSDB === 'true';
             db = MONGO_DB;
             url = MONGO_URL;
-            isTlsInsecure = TLS_INSECURE === 'true';
+            isTlsInsecure = MONGO_TLS_INSECURE === 'true';
         }
 
         this.options = {
