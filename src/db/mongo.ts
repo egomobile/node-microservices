@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { CollectionInsertManyOptions, CommonOptions, Db as MongoDb, DeleteWriteOpResultObject, FilterQuery, FindOneOptions, IndexOptions, InsertWriteOpResult, MongoClient as MongoDBClient, MongoCountPreferences, UpdateManyOptions, UpdateOneOptions, UpdateQuery, UpdateWriteOpResult, WithoutProjection, WriteOpResult } from 'mongodb';
+import type { BulkWriteOptions, CountDocumentsOptions, CreateIndexesOptions, Db as MongoDb, DeleteOptions, DeleteResult, Document, Filter, FindOptions, IndexSpecification, InsertManyResult, InsertOneResult, MongoClient as MongoDBClient, UpdateFilter, UpdateOptions, UpdateResult } from 'mongodb';
 
 /**
  * Options for 'createSingletonMongoProvider()' function.
@@ -105,7 +105,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
     const tryCloseConnection = async () => {
         const oldClient = client;
 
-        if (oldClient && oldClient.isConnected()) {
+        if (oldClient) {
             try {
                 await oldClient.close();
             } catch { }
@@ -185,6 +185,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
  */
 export class MongoDatabase {
     protected readonly options: Partial<IMongoDatabaseOptions>;
+    protected client: MongoDBClient | null = null;
 
     /**
      * Initializes a new instance of that class.
@@ -250,28 +251,36 @@ export class MongoDatabase {
      * Does a count on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {FilterQuery<T>} [query] The optional query.
-     * @param {MongoCountPreferences} [options] Custom options.
+     * @param {Filter<T>} [filter] The filter.
+     * @param {CountDocumentsOptions} [options] Custom options.
      *
      * @returns {Promise<number>} The promise with the number of documents.
      */
-    public async count<T = IMongoSchema>(
+    public async count<T = Document>(
         collectionName: string,
-        query?: FilterQuery<T>,
-        options?: MongoCountPreferences | WithoutProjection<FindOneOptions<T>>
+        filter?: Filter<T>,
+        options?: CountDocumentsOptions
     ): Promise<number> {
         if (this.options.isCosmosDB) {
             // some versions of Cosmos DB instances
             // do not support 'count()' operations
             // so we have to do a 'find()' first
-            return (await this.find(collectionName, query || {}, options as WithoutProjection<FindOneOptions<T>>)).length;
+            return (await this.find(collectionName, filter || {}, options)).length;
         }
 
         return this.withClient(client => {
             const db = client.db(this.options.db!);
-            const collection = db.collection(collectionName);
+            const collection = db.collection<T>(collectionName);
 
-            return collection.count(query, options as MongoCountPreferences) as Promise<number>;
+            if (filter) {
+                if (options) {
+                    return collection.countDocuments(filter, options) as Promise<number>;
+                } else {
+                    return collection.countDocuments(filter) as Promise<number>;
+                }
+            } else {
+                return collection.countDocuments() as Promise<number>;
+            }
         });
     }
 
@@ -279,16 +288,20 @@ export class MongoDatabase {
      * Create an index on a collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {any} fieldOrSpec The field or spec.
-     * @param {IndexOptions} [options] Custom options.
+     * @param {IndexSpecification} indexSpec The field or spec.
+     * @param {CreateIndexesOptions} [options] Custom options.
      * @returns {Promise<string>} The promise with the result.
      */
-    public createIndex(collectionName: string, fieldOrSpec: any, options?: IndexOptions | undefined): Promise<string> {
+    public createIndex(collectionName: string, indexSpec: IndexSpecification, options?: CreateIndexesOptions): Promise<string> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
-            return collection.createIndex(fieldOrSpec, options);
+            if (options) {
+                return collection.createIndex(indexSpec, options);
+            } else {
+                return collection.createIndex(indexSpec);
+            }
         });
     }
 
@@ -296,16 +309,20 @@ export class MongoDatabase {
      * Delete a document from a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {FilterQuery<any>} filter The filter.
-     * @param {CommonOptions} [options] Custom options.
-     * @returns {Promise<DeleteWriteOpResultObject>} The promise with the result.
+     * @param {Filter<T>} filter The filter.
+     * @param {DeleteOptions} [options] Custom options.
+     * @returns {Promise<DeleteResult>} The promise with the result.
      */
-    public deleteOne(collectionName: string, filter: FilterQuery<any>, options?: CommonOptions): Promise<DeleteWriteOpResultObject> {
+    public deleteOne<T = Document>(collectionName: string, filter: Filter<T>, options?: DeleteOptions): Promise<DeleteResult> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
-            const collection = db.collection(collectionName);
+            const collection = db.collection<T>(collectionName);
 
-            return collection.deleteOne(filter, options);
+            if (options) {
+                return collection.deleteOne(filter, options);
+            } else {
+                return collection.deleteOne(filter);
+            }
         });
     }
 
@@ -313,16 +330,20 @@ export class MongoDatabase {
      * Delete documents from a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {FilterQuery<any>} filter The filter.
-     * @param {CommonOptions} [options] Custom options.
-     * @returns {Promise<DeleteWriteOpResultObject>} The promise with the result.
+     * @param {Filter<T>} filter The filter.
+     * @param {DeleteOptions} [options] Custom options.
+     * @returns {Promise<DeleteResult>} The promise with the result.
      */
-    public deleteMany(collectionName: string, filter: FilterQuery<any>, options?: CommonOptions): Promise<DeleteWriteOpResultObject> {
+    public deleteMany<T = Document>(collectionName: string, filter: Filter<T>, options?: DeleteOptions): Promise<DeleteResult> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
-            const collection = db.collection(collectionName);
+            const collection = db.collection<T>(collectionName);
 
-            return collection.deleteMany(filter, options);
+            if (options) {
+                return collection.deleteMany(filter, options);
+            } else {
+                return collection.deleteMany(filter);
+            }
         });
     }
 
@@ -330,21 +351,21 @@ export class MongoDatabase {
      * Does a find on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {FilterQuery<T>} query The query.
-     * @param {WithoutProjection<FindOneOptions<T>>} [options] Custom options.
+     * @param {Filter<T>} filter The filter.
+     * @param {FindOptions<T>} [options] Custom options.
      *
      * @returns {Promise<T[]>} The promise with the result.
      */
     public find<T = IMongoSchema>(
         collectionName: string,
-        query: FilterQuery<T>,
-        options?: WithoutProjection<FindOneOptions<T>>
+        filter: Filter<T>,
+        options?: FindOptions<T>
     ): Promise<T[]> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
-            return collection.find(query, options)
+            return collection.find(filter, options)
                 .toArray() as Promise<T[]>;
         });
     }
@@ -353,39 +374,65 @@ export class MongoDatabase {
      * Does a findOne on a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {FilterQuery<T>} query The query.
-     * @param {FindOneOptions<T>} [options] Custom options.
+     * @param {Filter<T>} filter The filter.
+     * @param {FindOptions<T>} [options] Custom options.
      *
      * @returns {Promise<T|null>} The promise with the result or (null) if not found.
      */
     public findOne<T = IMongoSchema>(
         collectionName: string,
-        query: FilterQuery<T>,
-        options?: FindOneOptions<T extends IMongoSchema ? IMongoSchema : T>
+        filter: Filter<T>,
+        options?: FindOptions<T extends IMongoSchema ? IMongoSchema : T>
     ): Promise<T | null> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
-            return collection.findOne(query as any, options as any) as any;
+            return collection.findOne(filter as any, options as any) as any;
         });
     }
 
     /**
-     * Do an insert on a MongoDB collection.
+     * Insert many documents into a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
      * @param {T[]} docs The documents to insert.
-     * @param {CollectionInsertManyOptions} [options] Custom options.
+     * @param {BulkWriteOptions} [options] Custom options.
      *
-     * @returns {Promise<InsertWriteOpResult<MongoDocument<T>>>} The promise with the result.
+     * @returns {Promise<InsertManyResult<T>>} The promise with the result.
      */
-    public insert<T = IMongoSchema>(collectionName: string, docs: T[], options?: CollectionInsertManyOptions): Promise<InsertWriteOpResult<MongoDocument<T>>> {
+    public insertMany<T = IMongoSchema>(collectionName: string, docs: T[], options?: BulkWriteOptions): Promise<InsertManyResult<T>> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
-            return collection.insertMany(docs, options);
+            if (options) {
+                return collection.insertMany(docs, options);
+            } else {
+                return collection.insertMany(docs);
+            }
+        });
+    }
+
+    /**
+     * Insert one document into a MongoDB collection.
+     *
+     * @param {string} collectionName The collection's name.
+     * @param {T[]} docs The documents to insert.
+     * @param {BulkWriteOptions} [options] Custom options.
+     *
+     * @returns {Promise<InsertManyResult<T>>} The promise with the result.
+     */
+    public insertOne<T = IMongoSchema>(collectionName: string, docs: T, options?: BulkWriteOptions): Promise<InsertOneResult<T>> {
+        return this.withClient(client => {
+            const db = client.db(this.options.db!);
+            const collection = db.collection(collectionName);
+
+            if (options) {
+                return collection.insertOne(docs, options);
+            } else {
+                return collection.insertOne(docs);
+            }
         });
     }
 
@@ -398,12 +445,16 @@ export class MongoDatabase {
      * @param {UpdateManyOptions} [options] Custom options.
      * @returns {Promise<WriteOpResult>} The promise with the result.
      */
-    public update<T = IMongoSchema>(collectionName: string, filter: FilterQuery<T>, update: UpdateQuery<T>, options?: UpdateManyOptions): Promise<WriteOpResult> {
+    public updateMany<T = Document>(collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<Document | UpdateResult> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
-            const collection = db.collection(collectionName);
+            const collection = db.collection<T>(collectionName);
 
-            return collection.update(filter, update, options);
+            if (options) {
+                return collection.updateMany(filter, update, options);
+            } else {
+                return collection.updateMany(filter, update);
+            }
         });
     }
 
@@ -411,23 +462,26 @@ export class MongoDatabase {
      * Update one document in a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {FilterQuery<T>} filter The filter for the document.
-     * @param {UpdateQuery<T>} update The update query for the document.
-     * @param {UpdateManyOptions} [options] Custom options.
-     * @returns {Promise<UpdateWriteOpResult>} The promise with the result.
+     * @param {Filter<T>} filter The filter for the document.
+     * @param {UpdateFilter<T>} update The update query for the document.
+     * @param {UpdateOptions} [options] Custom options.
+     * @returns {Promise<UpdateResult | Document>} The promise with the result.
      */
-    public updateOne<T = IMongoSchema>(collectionName: string, filter: FilterQuery<T>, update: UpdateQuery<T>, options?: UpdateOneOptions): Promise<UpdateWriteOpResult> {
+    public updateOne<T = Document>(collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<UpdateResult | Document> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
-            const collection = db.collection(collectionName);
+            const collection = db.collection<T>(collectionName);
 
-            return collection.updateOne(filter, update, options);
+            if (options) {
+                return collection.updateOne(filter, update, options);
+            } else {
+                return collection.updateOne(filter, update);
+            }
         });
     }
 
     /**
-     * Opens a new client connections and executes an action for it.
-     * After invocation the underlying connection is closed automatically.
+     * Opens a new client connection if it doesn't exist and executes an action on it.
      *
      * @param {WithMongoClientAction<TResult>} action The action to invoke.
      *
@@ -441,17 +495,15 @@ export class MongoDatabase {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         const { MongoClient } = require('mongodb');
 
-        const client: MongoDBClient = await MongoClient.connect(this.options.url!, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            tls: this.options.isTls,
-            tlsInsecure: this.options.isTlsInsecure
-        });
-
-        try {
-            return await action(client, client.db(this.options.db!));
-        } finally {
-            await client.close();
+        if (this.client === null) {
+            this.client = await MongoClient.connect(this.options.url!, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                tls: this.options.isTls,
+                tlsInsecure: this.options.isTlsInsecure
+            });
         }
+
+        return await action(this.client!, this.client!.db(this.options.db!));
     }
 }
