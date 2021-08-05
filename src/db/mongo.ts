@@ -15,6 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const { MongoClient } = require('mongodb');
+
 import type { BulkWriteOptions, CountDocumentsOptions, CreateIndexesOptions, Db as MongoDb, DeleteOptions, DeleteResult, Document, Filter, FindOptions, IndexSpecification, InsertManyResult, InsertOneResult, MongoClient as MongoDBClient, UpdateFilter, UpdateOptions, UpdateResult } from 'mongodb';
 
 /**
@@ -500,9 +503,6 @@ export class MongoDatabase {
         action: WithMongoClientAction<TResult>
     ): Promise<TResult> {
         this.checkOptionsOrThrow();
-
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        const { MongoClient } = require('mongodb');
 
         if (this.client === null) {
             this.client = await MongoClient.connect(this.options.url!, {
