@@ -1,5 +1,10 @@
 # Change Log (@egomobile/microservices)
 
+## 0.44.0
+
+* use static connection in `withClient()` method in MongoDatabase class
+* update to mongodb 4.0
+
 ## 0.43.0
 
 * `MONGO_TLS` and `MONGO_TLS_INSECURE` are submitted as undefined, if empty
