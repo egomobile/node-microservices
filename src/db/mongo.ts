@@ -393,6 +393,15 @@ export class MongoDatabase {
     }
 
     /**
+     * Get the MongoDB client.
+     *
+     * @returns {MongoDBClient} The the MongoDB client.
+     */
+    public getClient(): MongoDBClient | null {
+        return this.client;
+    }
+
+    /**
      * Insert many documents into a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.

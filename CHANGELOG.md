@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.45.0
+
+* add `getClient()`method to MongoDatabase class
+
 ## 0.44.1
 
 * fix `insertOne()`
