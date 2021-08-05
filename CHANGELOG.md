@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.44.1
+
+* fix `insertOne()`
+
 ## 0.44.0
 
 * use static connection in `withClient()` method in MongoDatabase class

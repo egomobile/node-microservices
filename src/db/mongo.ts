@@ -418,20 +418,20 @@ export class MongoDatabase {
      * Insert one document into a MongoDB collection.
      *
      * @param {string} collectionName The collection's name.
-     * @param {T[]} docs The documents to insert.
+     * @param {T} doc The document to insert.
      * @param {BulkWriteOptions} [options] Custom options.
      *
      * @returns {Promise<InsertManyResult<T>>} The promise with the result.
      */
-    public insertOne<T = IMongoSchema>(collectionName: string, docs: T, options?: BulkWriteOptions): Promise<InsertOneResult<T>> {
+    public insertOne<T = IMongoSchema>(collectionName: string, doc: T, options?: BulkWriteOptions): Promise<InsertOneResult<T>> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
             if (options) {
-                return collection.insertOne(docs, options);
+                return collection.insertOne(doc, options);
             } else {
-                return collection.insertOne(docs);
+                return collection.insertOne(doc);
             }
         });
     }
