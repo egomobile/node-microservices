@@ -1,0 +1,577 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@egomobile/microservices</title>
+	<meta name="description" content="Documentation for @egomobile/microservices">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@egomobile/microservices</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>@egomobile/microservices</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p><a href="https://www.npmjs.com/package/@egomobile/microservices"><img src="https://img.shields.io/npm/v/@egomobile/microservices.svg" alt="npm"></a></p>
+				<a href="#egomobilemicroservices" id="egomobilemicroservices" style="color: inherit; text-decoration: none;">
+					<h1>@egomobile/microservices</h1>
+				</a>
+				<blockquote>
+					<p>Shared library for microservices, written for <a href="https://nodejs.org/en/blog/release/v12.0.0/">Node.js</a>, in <a href="https://www.typescriptlang.org/">TypeScript</a>.</p>
+				</blockquote>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
+				<p>Execute the following command from your project folder, where your <code>package.json</code> file is stored:</p>
+				<pre><code class="language-bash"><span style="color: #000000">npm install --save @egomobile/microservices</span>
+</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<a href="#auth" id="auth" style="color: inherit; text-decoration: none;">
+					<h3>Auth</h3>
+				</a>
+				<a href="#passwords" id="passwords" style="color: inherit; text-decoration: none;">
+					<h4>Passwords</h4>
+				</a>
+				<p>Hash passwords with <a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">checkPassword</span><span style="color: #000000">, </span><span style="color: #001080">checkPasswordSync</span><span style="color: #000000">, </span><span style="color: #001080">hashPassword</span><span style="color: #000000">, </span><span style="color: #001080">hashPasswordSync</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">hash1</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">hashPassword</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;test&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">doesMatch1</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">checkPassword</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;test&#039;</span><span style="color: #000000">, </span><span style="color: #001080">hash1</span><span style="color: #000000">);  </span><span style="color: #008000">// true</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">hash2</span><span style="color: #000000"> = </span><span style="color: #795E26">hashPasswordSync</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;test&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">doesMatch2</span><span style="color: #000000"> = </span><span style="color: #795E26">checkPasswordSync</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Test&#039;</span><span style="color: #000000">, </span><span style="color: #001080">hash2</span><span style="color: #000000">);  </span><span style="color: #008000">// false</span>
+</code></pre>
+				<a href="#jwt" id="jwt" style="color: inherit; text-decoration: none;">
+					<h4>JWT</h4>
+				</a>
+				<p>Sign and verify <a href="https://en.wikipedia.org/wiki/JSON_Web_Token">JSON Web Tokens</a>:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signJWT</span><span style="color: #000000">, </span><span style="color: #001080">verifyJWT</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">IUserToken</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">uuid</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">;</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">jwt</span><span style="color: #000000"> = </span><span style="color: #795E26">signJWT</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">uuid:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;cb246b52-b8cd-4916-bfad-6bfc43845597&#039;</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">decodedToken</span><span style="color: #000000"> = </span><span style="color: #795E26">verifyJWT</span><span style="color: #000000">&lt;</span><span style="color: #267F99">IUserToken</span><span style="color: #000000">&gt;(</span><span style="color: #001080">jwt</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#express" id="express" style="color: inherit; text-decoration: none;">
+					<h5>Express</h5>
+				</a>
+				<p>Use predefined <a href="https://expressjs.com/en/guide/using-middleware.html">Express middleware</a> to verify and decode JWTs:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">express</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;express&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">withJWT</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">app</span><span style="color: #000000"> = </span><span style="color: #795E26">express</span><span style="color: #000000">();</span>
+
+<span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;/&#039;</span><span style="color: #000000">, </span><span style="color: #795E26">withJWT</span><span style="color: #000000">(), </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">request</span><span style="color: #000000">, </span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// decoded, valid user token is stored in:</span>
+<span style="color: #000000">    </span><span style="color: #008000">// request.userToken</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">listen</span><span style="color: #000000">(</span><span style="color: #098658">4242</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Service is listening ...&#039;</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<a href="#azure-ad" id="azure-ad" style="color: inherit; text-decoration: none;">
+					<h6>Azure AD</h6>
+				</a>
+				<p>You can connect with <a href="https://azure.microsoft.com/en-us/services/active-directory/">Azure AD</a>, by using <a href="https://www.npmjs.com/package/passport">passport</a> and <a href="https://www.npmjs.com/package/passport-azure-ad">passport-azure-ad</a> modules:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">express</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;express&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">setupAppForAzureAD</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">app</span><span style="color: #000000"> = </span><span style="color: #795E26">express</span><span style="color: #000000">();</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">withAzureADBearer</span><span style="color: #000000"> } = </span><span style="color: #795E26">setupAppForAzureAD</span><span style="color: #000000">(</span><span style="color: #001080">app</span><span style="color: #000000">);</span>
+
+<span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;/&#039;</span><span style="color: #000000">, </span><span style="color: #795E26">withAzureADBearer</span><span style="color: #000000">(), </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">request</span><span style="color: #000000">, </span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// get decoded token</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">authInfo</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000"> = </span><span style="color: #001080">request</span><span style="color: #000000">.</span><span style="color: #001080">authInfo</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">response</span><span style="color: #000000">.</span><span style="color: #795E26">json</span><span style="color: #000000">(</span><span style="color: #001080">authInfo</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">listen</span><span style="color: #000000">(</span><span style="color: #098658">4242</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Service is listening ...&#039;</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<a href="#constants" id="constants" style="color: inherit; text-decoration: none;">
+					<h3>Constants</h3>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Description</th>
+							<th>Example</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><code>APPLICATION_INSIGHTS_KEY</code></td>
+							<td>Application Insights key.</td>
+							<td><code>dd7589fc-1cf9-413e-bf6c-aa1253858b55</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_AUDIENCE</code></td>
+							<td>Azure AD audience.</td>
+							<td><code>6b3c51b9-7cc0-4327-a901-e5b889efbbaa</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_CLIENT_ID</code></td>
+							<td>App ID for Azure AD.</td>
+							<td><code>6b3c51b9-7cc0-4327-a901-e5b889efbbaa</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_IDENTITY_METADATA</code></td>
+							<td>Identity metadata.</td>
+							<td><code>https://myazuread.b2clogin.com/myazuread.onmicrosoft.com/my_policy/v2.0/.well-known/openid-configuration</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_IS_B2C</code></td>
+							<td><code>true</code> if Azure AD is running in B2C context.</td>
+							<td><code>true</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_LOGGING_LEVEL</code></td>
+							<td>Azure ADlogging level. Possible values are <code>error</code>, <code>info</code> or <code>warn</code>.</td>
+							<td><code>info</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_PASS_REQ_TO_CALLBACK</code></td>
+							<td><code>true</code> if Azure AD request should be passed to callback.</td>
+							<td><code>false</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_POLICY_NAME</code></td>
+							<td>Azure AD policy name.</td>
+							<td><code>my_policy</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_STORAGE_CONNECTION_*</code></td>
+							<td>The string of the connection to the storage.</td>
+							<td><code>DefaultEndpointsProtocol=https;....windows.net</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_STORAGE_CONNECTION_*_CONTAINER</code></td>
+							<td>The name of the underlying container.</td>
+							<td><code>my_container</code></td>
+						</tr>
+						<tr>
+							<td><code>AZURE_AD_VALIDATE_ISSUER</code></td>
+							<td><code>true</code> if Azure AD issuer should be validated or not.</td>
+							<td><code>false</code></td>
+						</tr>
+						<tr>
+							<td><code>BCRYPT_ROUNDS</code></td>
+							<td>The number of rounds for bcrypt hashing. Default: <code>10</code></td>
+							<td><code>12</code></td>
+						</tr>
+						<tr>
+							<td><code>EMAIL_FROM</code></td>
+							<td>The email from field.</td>
+							<td><code>no-reply@e-go-mobile.com</code></td>
+						</tr>
+						<tr>
+							<td><code>EMAIL_HOST</code></td>
+							<td>The host for sending mail.</td>
+							<td><code>smtp.office365.com</code></td>
+						</tr>
+						<tr>
+							<td><code>EMAIL_PASSWORD</code></td>
+							<td>The email password for authentication.</td>
+							<td><code>&lt;some secure password&gt;</code></td>
+						</tr>
+						<tr>
+							<td><code>EMAIL_PORT</code></td>
+							<td>The port for sending mail.</td>
+							<td><code>587</code></td>
+						</tr>
+						<tr>
+							<td><code>EMAIL_SECURE</code></td>
+							<td>Should the email be send encryted?</td>
+							<td><code>false</code></td>
+						</tr>
+						<tr>
+							<td><code>EMAIL_USER</code></td>
+							<td>The email user for authentication.</td>
+							<td><code>no-reply@e-go-mobile.com</code></td>
+						</tr>
+						<tr>
+							<td><code>EMAIL_TO</code></td>
+							<td>The email to field.</td>
+							<td><code>some@address.com</code></td>
+						</tr>
+						<tr>
+							<td><code>JWT_SECRET</code></td>
+							<td>The secret for signing and validating JWT.</td>
+							<td><code>mySecretJWTSecret</code></td>
+						</tr>
+						<tr>
+							<td><code>LOCAL_DEVELOPMENT</code></td>
+							<td><code>true</code> if app running in local development context or not.</td>
+							<td><code>false</code></td>
+						</tr>
+						<tr>
+							<td><code>LOG_LEVEL</code></td>
+							<td>The name of the <a href="https://www.npmjs.com/package/winston#logging-levels">logging level</a>.</td>
+							<td><code>debug</code></td>
+						</tr>
+						<tr>
+							<td><code>MONGO_DB</code></td>
+							<td>The name of the database to connect to.</td>
+							<td><code>myDatabase</code></td>
+						</tr>
+						<tr>
+							<td><code>MONGO_IS_COSMOSDB</code></td>
+							<td><code>true</code>, if server runs as <a href="https://docs.microsoft.com/en-us/azure/cosmos-db/introduction">Cosmos DB</a> instance.</td>
+							<td><code>true</code></td>
+						</tr>
+						<tr>
+							<td><code>MONGO_IS_LAZY</code></td>
+							<td>If <code>true</code>, <code>MongoDatabase</code> will throw an error, if not enough configuration data is available, the first time an instance of it is used, instead the time an instance of it is created.</td>
+							<td><code>true</code></td>
+						</tr>
+						<tr>
+							<td><code>MONGO_URL</code></td>
+							<td>The connection URL.</td>
+							<td><code>mongodb://mongo.example.com:27017</code></td>
+						</tr>
+						<tr>
+							<td><code>NATS_CLUSTER_ID</code></td>
+							<td>The name of the cluster, that contains all microservices.</td>
+							<td><code>my-cluster</code></td>
+						</tr>
+						<tr>
+							<td><code>NATS_GROUP</code></td>
+							<td>The name of the pod group / Kubernetes deployment.</td>
+							<td><code>my-service-or-deployment</code></td>
+						</tr>
+						<tr>
+							<td><code>NATS_URL</code></td>
+							<td>The URL to the NATS server.</td>
+							<td><code>http://my-nats-service:4222</code></td>
+						</tr>
+						<tr>
+							<td><code>POD_NAME</code></td>
+							<td>The name of the pod. This should come as imported metadata from Kubernetes.</td>
+							<td><code>my-service-or-deployment-xcsgbxv</code></td>
+						</tr>
+				</tbody></table>
+				<a href="#diagnostics" id="diagnostics" style="color: inherit; text-decoration: none;">
+					<h3>Diagnostics</h3>
+				</a>
+				<p>The library uses <a href="https://www.npmjs.com/package/winston">winston</a> as logger:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">logger</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #001080">logger</span><span style="color: #000000">.</span><span style="color: #795E26">info</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Hello e.GO!&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">    </span><span style="color: #001080">file:</span><span style="color: #000000"> </span><span style="color: #001080">__filename</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<a href="#application-insights" id="application-insights" style="color: inherit; text-decoration: none;">
+					<h4>Application Insights</h4>
+				</a>
+				<p>Setup <a href="https://www.npmjs.com/package/applicationinsights">Application Insights</a>:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">setupApplicationInsights</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// you must define &#039;APPLICATION_INSIGHTS_KEY&#039;</span>
+<span style="color: #008000">// and must not be in local development context</span>
+<span style="color: #795E26">setupApplicationInsights</span><span style="color: #000000">();</span>
+</code></pre>
+				<a href="#express-1" id="express-1" style="color: inherit; text-decoration: none;">
+					<h3>Express</h3>
+				</a>
+				<a href="#schema" id="schema" style="color: inherit; text-decoration: none;">
+					<h4>Schema</h4>
+				</a>
+				<p>Use <code>schema</code> namespace, which is a link to embedded <a href="https://www.npmjs.com/package/joi">joi</a> module, and build-in middlewares to validate input.</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">schema</span><span style="color: #000000">, </span><span style="color: #001080">withDataURI</span><span style="color: #000000">, </span><span style="color: #001080">withSchema</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">IMySchema</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">email</span><span style="color: #000000">?: </span><span style="color: #267F99">string</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">first_name</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">last_name</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">;</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">mySchema</span><span style="color: #000000"> = </span><span style="color: #001080">schema</span><span style="color: #000000">.</span><span style="color: #795E26">object</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">email:</span><span style="color: #000000"> </span><span style="color: #001080">schema</span><span style="color: #000000">.</span><span style="color: #795E26">string</span><span style="color: #000000">().</span><span style="color: #795E26">strict</span><span style="color: #000000">().</span><span style="color: #795E26">trim</span><span style="color: #000000">().</span><span style="color: #795E26">email</span><span style="color: #000000">().</span><span style="color: #795E26">optional</span><span style="color: #000000">()</span>
+<span style="color: #000000">    </span><span style="color: #001080">first_name</span><span style="color: #000000">: </span><span style="color: #001080">schema</span><span style="color: #000000">.</span><span style="color: #795E26">string</span><span style="color: #000000">().</span><span style="color: #795E26">strict</span><span style="color: #000000">().</span><span style="color: #795E26">trim</span><span style="color: #000000">().</span><span style="color: #795E26">min</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">).</span><span style="color: #795E26">required</span><span style="color: #000000">()</span>
+<span style="color: #000000">    </span><span style="color: #001080">last_name</span><span style="color: #000000">: </span><span style="color: #001080">schema</span><span style="color: #000000">.</span><span style="color: #795E26">string</span><span style="color: #000000">().</span><span style="color: #795E26">strict</span><span style="color: #000000">().</span><span style="color: #795E26">trim</span><span style="color: #000000">().</span><span style="color: #795E26">min</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">).</span><span style="color: #795E26">required</span><span style="color: #000000">()</span>
+<span style="color: #000000">}).</span><span style="color: #795E26">required</span><span style="color: #000000">();</span>
+
+
+<span style="color: #008000">// withSchema() will automatically add</span>
+<span style="color: #008000">// middleware, created by express.json()</span>
+<span style="color: #008000">// with a limit of 128 MB</span>
+<span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">post</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;/user/register&#039;</span><span style="color: #000000">, </span><span style="color: #795E26">withSchema</span><span style="color: #000000">(</span><span style="color: #001080">mySchema</span><span style="color: #000000">), </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">request</span><span style="color: #000000">, </span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">body</span><span style="color: #000000">: </span><span style="color: #267F99">IMySchema</span><span style="color: #000000"> = </span><span style="color: #001080">request</span><span style="color: #000000">.</span><span style="color: #001080">body</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">    </span><span style="color: #008000">// ...</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #008000">// withDataURI() will automatically add middlewares</span>
+<span style="color: #008000">// to parse the input</span>
+<span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">put</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;/user/image&#039;</span><span style="color: #000000">, </span><span style="color: #795E26">withDataURI</span><span style="color: #000000">(), </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">request</span><span style="color: #000000">, </span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// data:&lt;MIME&gt;;base64,&lt;BASE64-DATA&gt;</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">mime</span><span style="color: #000000"> = </span><span style="color: #001080">request</span><span style="color: #000000">.</span><span style="color: #001080">headers</span><span style="color: #000000">[</span><span style="color: #A31515">&#039;content-type&#039;</span><span style="color: #000000">] </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #267F99">string</span><span style="color: #000000">;  </span><span style="color: #008000">// &lt;MIME&gt;</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">body</span><span style="color: #000000">: </span><span style="color: #267F99">Buffer</span><span style="color: #000000"> = </span><span style="color: #001080">request</span><span style="color: #000000">.</span><span style="color: #001080">body</span><span style="color: #000000">;  </span><span style="color: #008000">// decoded &lt;BASE64-DATA&gt;</span>
+
+<span style="color: #000000">    </span><span style="color: #008000">// ...</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<a href="#mongodb" id="mongodb" style="color: inherit; text-decoration: none;">
+					<h3>MongoDB</h3>
+				</a>
+				<p>Use <code>MongoDatabase</code> class, which has simple support to handle <a href="https://www.npmjs.com/package/mongodb">MongoDB</a> connections:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">MongoDatabase</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">mongo</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">MongoDatabase</span><span style="color: #000000">();</span>
+
+<span style="color: #008000">// insert</span>
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">mongo</span><span style="color: #000000">.</span><span style="color: #795E26">insert</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;myCollection&#039;</span><span style="color: #000000">, [{</span>
+<span style="color: #000000">    </span><span style="color: #001080">uuid:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;8d41b8fc-2110-4b05-91ff-0a40c007be9d&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">last_name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Kloubert&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">first_name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Marcel&#039;</span>
+<span style="color: #000000">}, {</span>
+<span style="color: #000000">    </span><span style="color: #001080">uuid:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;90b7191d-44ce-43c9-a6e3-b777a8b9c8a6&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">last_name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;M&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">first_name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Tanja&#039;</span>
+<span style="color: #000000">}]);</span>
+
+<span style="color: #008000">// find</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">docs</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">mongo</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;myCollection&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">    </span><span style="color: #001080">first_name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Tanja&#039;</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #008000">// count</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">docsCount</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">mongo</span><span style="color: #000000">.</span><span style="color: #795E26">count</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;myCollection&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">    </span><span style="color: #001080">first_name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Marcel&#039;</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<a href="#nats" id="nats" style="color: inherit; text-decoration: none;">
+					<h3>NATS</h3>
+				</a>
+				<p>Connect to a <a href="https://en.wikipedia.org/wiki/NATS_Messaging">NATS</a> server:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">stan</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">stan</span><span style="color: #000000">.</span><span style="color: #795E26">connect</span><span style="color: #000000">();</span>
+<span style="color: #001080">stan</span><span style="color: #000000">.</span><span style="color: #795E26">exitOnClose</span><span style="color: #000000">();</span>
+</code></pre>
+				<a href="#listener" id="listener" style="color: inherit; text-decoration: none;">
+					<h4>Listener</h4>
+				</a>
+				<p>Listen for events:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">NatsListener</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">IMyEvent</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">foo</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">bar</span><span style="color: #000000">: </span><span style="color: #267F99">number</span><span style="color: #000000">;</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">myEventListener</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">NatsListener</span><span style="color: #000000">&lt;</span><span style="color: #267F99">IMyEvent</span><span style="color: #000000">&gt;(</span><span style="color: #A31515">&#039;my.event&#039;</span><span style="color: #000000">);</span>
+
+<span style="color: #001080">myEventListener</span><span style="color: #000000">.</span><span style="color: #795E26">onMessage</span><span style="color: #000000"> = </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">context</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// handle message in context.message of type IMyEvent</span>
+<span style="color: #000000">};</span>
+
+<span style="color: #001080">myEventListener</span><span style="color: #000000">.</span><span style="color: #795E26">listen</span><span style="color: #000000">();</span>
+</code></pre>
+				<a href="#publisher" id="publisher" style="color: inherit; text-decoration: none;">
+					<h4>Publisher</h4>
+				</a>
+				<p>Publish events:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">NatsPublisher</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@egomobile/microservices&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">IMyEvent</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">foo</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">bar</span><span style="color: #000000">: </span><span style="color: #267F99">number</span><span style="color: #000000">;</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">myEventPublisher</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">NatsPublisher</span><span style="color: #000000">&lt;</span><span style="color: #267F99">IMyEvent</span><span style="color: #000000">&gt;(</span><span style="color: #A31515">&#039;my.event&#039;</span><span style="color: #000000">);</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">myEventPublisher</span><span style="color: #000000">.</span><span style="color: #795E26">publish</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">foo:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;TM+MK&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">bar:</span><span style="color: #000000"> </span><span style="color: #098658">42</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<p>The API documentation can be found <a href="https://egomobile.github.io/node-microservices/">here</a>.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/api.html">api</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/auth.html">auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/auth_azuread.html">auth/azure<wbr>Ad</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/auth_jwt.html">auth/jwt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/auth_password.html">auth/password</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/constants.html">constants</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/db.html">db</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/db_mongo.html">db/mongo</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/diagnostics.html">diagnostics</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/diagnostics_azure.html">diagnostics/azure</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/diagnostics_logger.html">diagnostics/logger</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/env.html">env</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/errors.html">errors</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/errors_requesterror.html">errors/request<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/express.html">express</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/express_error.html">express/error</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/express_schema.html">express/schema</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/index.html">index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/mail.html">mail</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/mail_mail.html">mail/mail</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/nats.html">nats</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/nats_client.html">nats/client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/nats_listener.html">nats/listener</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/nats_publisher.html">nats/publisher</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/storage.html">storage</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/storage_azure.html">storage/azure</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils.html">utils</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
