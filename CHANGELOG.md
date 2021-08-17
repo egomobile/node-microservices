@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.46.0
+
+* add `RedisCache` class
+
 ## 0.45.1
 
 * fix duplicated `MongoClient`
