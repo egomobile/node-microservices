@@ -21,7 +21,15 @@ jobs:
         run: npm run lint
       - name: Build library
         run: npm run build
+      - name: Generate documentation
+        run: npm run docs:generate
       - name: Deploy to NPM
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
+        with:
+          dir: docs
+          branch: gh-pages
+          token: ${{ secrets.GH_PAT }}

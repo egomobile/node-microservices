@@ -21,3 +21,5 @@ jobs:
         run: npm run lint
       - name: Build library
         run: npm run build
+      - name: Generate documentation
+        run: npm run docs:generate
