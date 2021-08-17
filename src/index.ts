@@ -23,6 +23,7 @@ import joi from 'joi';
 
 export * from './api';
 export * from './auth';
+export * from './cache';
 export * from './constants';
 export * from './db';
 export * from './diagnostics';
