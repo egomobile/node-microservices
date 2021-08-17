@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.47.1
+
+* forgot export for cache
+
 ## 0.47.0
 
 * add `RedisCache` class
