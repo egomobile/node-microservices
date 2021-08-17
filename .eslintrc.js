@@ -1,6 +1,7 @@
 module.exports = {
     "root": true,
     "extends": "ego",
+    "ignorePatterns": ['.eslintrc.js'],
     "parserOptions": {
         "project": "tsconfig.json",
         "tsconfigRootDir": __dirname,

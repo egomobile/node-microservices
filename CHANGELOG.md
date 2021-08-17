@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.47.0
+
+* add `RedisCache` class
+
 ## 0.46.0
 
 * library documentation is generated and published automatically now
