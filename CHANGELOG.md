@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.48.1
+
+* use url from options
+
 ## 0.48.0
 
 * fix mongo connection
