@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.49.0
+
+* create mongoDB connection
+
 ## 0.48.1
 
 * use url from options
