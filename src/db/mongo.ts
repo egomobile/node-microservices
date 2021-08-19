@@ -188,7 +188,7 @@ export function createSingletonMongoClientProvider(options: ICreateSingletonMong
  */
 export class MongoDatabase {
     protected readonly options: Partial<IMongoDatabaseOptions>;
-    protected client: MongoDBClient | null = null;
+    protected client: MongoDBClient;
 
     /**
      * Initializes a new instance of that class.
@@ -233,6 +233,9 @@ export class MongoDatabase {
         if (MONGO_IS_LAZY !== 'true') {
             this.checkOptionsOrThrow();
         }
+
+        this.client = new MongoClient(process.env.MONGO_URL!);
+        this.client.connect();
     }
 
     /**
@@ -503,15 +506,6 @@ export class MongoDatabase {
         action: WithMongoClientAction<TResult>
     ): Promise<TResult> {
         this.checkOptionsOrThrow();
-
-        if (this.client === null) {
-            this.client = await MongoClient.connect(this.options.url!, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                tls: this.options.isTls,
-                tlsInsecure: this.options.isTlsInsecure
-            });
-        }
 
         return await action(this.client!, this.client!.db(this.options.db!));
     }
