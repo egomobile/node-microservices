@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.48.0
+
+* fix mongo connection
+
 ## 0.47.1
 
 * forgot export for cache
