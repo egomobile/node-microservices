@@ -234,7 +234,7 @@ export class MongoDatabase {
             this.checkOptionsOrThrow();
         }
 
-        this.client = new MongoClient(process.env.MONGO_URL!);
+        this.client = new MongoClient(this.options.url);
         this.client.connect();
     }
 
