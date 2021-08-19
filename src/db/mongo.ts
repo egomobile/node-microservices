@@ -234,8 +234,7 @@ export class MongoDatabase {
             this.checkOptionsOrThrow();
         }
 
-        this.client = new MongoClient(this.options.url);
-        this.client.connect();
+        this.client = new MongoClient(process.env.MONGO_URL!);
     }
 
     /**
@@ -251,6 +250,13 @@ export class MongoDatabase {
         if (!url?.length) {
             throw new Error('No MONGO_URL defined');
         }
+    }
+
+    /**
+     * connect to database
+     */
+    public async connect() {
+        await this.client.connect();
     }
 
     /**
