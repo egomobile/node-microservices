@@ -16,7 +16,7 @@
  */
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 import type { BulkWriteOptions, CountDocumentsOptions, CreateIndexesOptions, Db as MongoDb, DeleteOptions, DeleteResult, Document, Filter, FindOptions, IndexSpecification, InsertManyResult, InsertOneResult, MongoClient as MongoDBClient, UpdateFilter, UpdateOptions, UpdateResult } from 'mongodb';
 
@@ -235,10 +235,8 @@ export class MongoDatabase {
         }
 
         this.client = new MongoClient(process.env.MONGO_URL!, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
             tls: this.options.isTls,
-            isTlsInsecure: this.options.isTlsInsecure
+            tlsInsecure: this.options.isTlsInsecure
         });
     }
 
