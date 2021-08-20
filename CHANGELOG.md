@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.50.0
+
+* bring back MongoDB options
+
 ## 0.49.0
 
 * create mongoDB connection
