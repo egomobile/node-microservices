@@ -256,6 +256,13 @@ export class MongoDatabase {
     }
 
     /**
+     * disconnect from database
+     */
+    public async disconnect() {
+        await this.client.close();
+    }
+
+    /**
      * connect to database
      */
     public async connect() {
