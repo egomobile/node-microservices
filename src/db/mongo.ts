@@ -234,7 +234,12 @@ export class MongoDatabase {
             this.checkOptionsOrThrow();
         }
 
-        this.client = new MongoClient(process.env.MONGO_URL!);
+        this.client = new MongoClient(process.env.MONGO_URL!, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            tls: this.options.isTls,
+            isTlsInsecure: this.options.isTlsInsecure
+        });
     }
 
     /**
