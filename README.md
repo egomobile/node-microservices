@@ -94,38 +94,38 @@ app.listen(4242, () => {
 
 ### Constants
 
-| Name | Description | Example |
-|------|-------------|---------|
-| `APPLICATION_INSIGHTS_KEY` | Application Insights key. | `dd7589fc-1cf9-413e-bf6c-aa1253858b55` |
-| `AZURE_AD_AUDIENCE` | Azure AD audience. | `6b3c51b9-7cc0-4327-a901-e5b889efbbaa` |
-| `AZURE_AD_CLIENT_ID` | App ID for Azure AD. | `6b3c51b9-7cc0-4327-a901-e5b889efbbaa` |
-| `AZURE_AD_IDENTITY_METADATA` | Identity metadata. | `https://myazuread.b2clogin.com/myazuread.onmicrosoft.com/my_policy/v2.0/.well-known/openid-configuration` |
-| `AZURE_AD_IS_B2C` | `true` if Azure AD is running in B2C context. | `true` |
-| `AZURE_AD_LOGGING_LEVEL` | Azure ADlogging level. Possible values are `error`, `info` or `warn`. | `info` |
-| `AZURE_AD_PASS_REQ_TO_CALLBACK` | `true` if Azure AD request should be passed to callback. | `false` |
-| `AZURE_AD_POLICY_NAME` | Azure AD policy name. | `my_policy` |
-| `AZURE_STORAGE_CONNECTION_*` | The string of the connection to the storage. | `DefaultEndpointsProtocol=https;....windows.net` |
-| `AZURE_STORAGE_CONNECTION_*_CONTAINER` | The name of the underlying container. | `my_container` |
-| `AZURE_AD_VALIDATE_ISSUER` | `true` if Azure AD issuer should be validated or not. | `false` |
-| `BCRYPT_ROUNDS` | The number of rounds for bcrypt hashing. Default: `10` | `12` |
-| `EMAIL_FROM` | The email from field. | `no-reply@e-go-mobile.com` |
-| `EMAIL_HOST` | The host for sending mail. | `smtp.office365.com` |
-| `EMAIL_PASSWORD` | The email password for authentication. | `<some secure password>` |
-| `EMAIL_PORT` | The port for sending mail. | `587` |
-| `EMAIL_SECURE` | Should the email be send encryted? | `false` |
-| `EMAIL_USER` | The email user for authentication. | `no-reply@e-go-mobile.com` |
-| `EMAIL_TO` | The email to field. | `some@address.com` |
-| `JWT_SECRET` | The secret for signing and validating JWT. | `mySecretJWTSecret` |
-| `LOCAL_DEVELOPMENT` | `true` if app running in local development context or not. | `false` |
-| `LOG_LEVEL` | The name of the [logging level](https://www.npmjs.com/package/winston#logging-levels). | `debug` |
-| `MONGO_DB` | The name of the database to connect to. | `myDatabase` |
-| `MONGO_IS_COSMOSDB` | `true`, if server runs as [Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) instance. | `true` |
-| `MONGO_IS_LAZY` | If `true`, `MongoDatabase` will throw an error, if not enough configuration data is available, the first time an instance of it is used, instead the time an instance of it is created. | `true` |
-| `MONGO_URL` | The connection URL. | `mongodb://mongo.example.com:27017` |
-| `NATS_CLUSTER_ID` | The name of the cluster, that contains all microservices. | `my-cluster` |
-| `NATS_GROUP` | The name of the pod group / Kubernetes deployment. | `my-service-or-deployment` |
-| `NATS_URL` | The URL to the NATS server. | `http://my-nats-service:4222` |
-| `POD_NAME` | The name of the pod. This should come as imported metadata from Kubernetes. | `my-service-or-deployment-xcsgbxv` |
+| Name                                   | Description                                                                                                                                                                             | Example                                                                                                    |
+|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `APPLICATION_INSIGHTS_KEY`             | Application Insights key.                                                                                                                                                               | `dd7589fc-1cf9-413e-bf6c-aa1253858b55`                                                                     |
+| `AZURE_AD_AUDIENCE`                    | Azure AD audience.                                                                                                                                                                      | `6b3c51b9-7cc0-4327-a901-e5b889efbbaa`                                                                     |
+| `AZURE_AD_CLIENT_ID`                   | App ID for Azure AD.                                                                                                                                                                    | `6b3c51b9-7cc0-4327-a901-e5b889efbbaa`                                                                     |
+| `AZURE_AD_IDENTITY_METADATA`           | Identity metadata.                                                                                                                                                                      | `https://myazuread.b2clogin.com/myazuread.onmicrosoft.com/my_policy/v2.0/.well-known/openid-configuration` |
+| `AZURE_AD_IS_B2C`                      | `true` if Azure AD is running in B2C context.                                                                                                                                           | `true`                                                                                                     |
+| `AZURE_AD_LOGGING_LEVEL`               | Azure ADlogging level. Possible values are `error`, `info` or `warn`.                                                                                                                   | `info`                                                                                                     |
+| `AZURE_AD_PASS_REQ_TO_CALLBACK`        | `true` if Azure AD request should be passed to callback.                                                                                                                                | `false`                                                                                                    |
+| `AZURE_AD_POLICY_NAME`                 | Azure AD policy name.                                                                                                                                                                   | `my_policy`                                                                                                |
+| `AZURE_STORAGE_CONNECTION_*`           | The string of the connection to the storage.                                                                                                                                            | `DefaultEndpointsProtocol=https;....windows.net`                                                           |
+| `AZURE_STORAGE_CONNECTION_*_CONTAINER` | The name of the underlying container.                                                                                                                                                   | `my_container`                                                                                             |
+| `AZURE_AD_VALIDATE_ISSUER`             | `true` if Azure AD issuer should be validated or not.                                                                                                                                   | `false`                                                                                                    |
+| `BCRYPT_ROUNDS`                        | The number of rounds for bcrypt hashing. Default: `10`                                                                                                                                  | `12`                                                                                                       |
+| `EMAIL_FROM`                           | The email from field.                                                                                                                                                                   | `no-reply@e-go-mobile.com`                                                                                 |
+| `EMAIL_HOST`                           | The host for sending mail.                                                                                                                                                              | `smtp.office365.com`                                                                                       |
+| `EMAIL_PASSWORD`                       | The email password for authentication.                                                                                                                                                  | `<some secure password>`                                                                                   |
+| `EMAIL_PORT`                           | The port for sending mail.                                                                                                                                                              | `587`                                                                                                      |
+| `EMAIL_SECURE`                         | Should the email be send encryted?                                                                                                                                                      | `false`                                                                                                    |
+| `EMAIL_USER`                           | The email user for authentication.                                                                                                                                                      | `no-reply@e-go-mobile.com`                                                                                 |
+| `EMAIL_TO`                             | The email to field.                                                                                                                                                                     | `some@address.com`                                                                                         |
+| `JWT_SECRET`                           | The secret for signing and validating JWT.                                                                                                                                              | `mySecretJWTSecret`                                                                                        |
+| `LOCAL_DEVELOPMENT`                    | `true` if app running in local development context or not.                                                                                                                              | `false`                                                                                                    |
+| `LOG_LEVEL`                            | The name of the [logging level](https://www.npmjs.com/package/winston#logging-levels).                                                                                                  | `debug`                                                                                                    |
+| `MONGO_DB`                             | The name of the database to connect to.                                                                                                                                                 | `myDatabase`                                                                                               |
+| `MONGO_IS_COSMOSDB`                    | `true`, if server runs as [Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction) instance.                                                                          | `true`                                                                                                     |
+| `MONGO_IS_LAZY`                        | If `true`, `MongoDatabase` will throw an error, if not enough configuration data is available, the first time an instance of it is used, instead the time an instance of it is created. | `true`                                                                                                     |
+| `MONGO_URL`                            | The connection URL.                                                                                                                                                                     | `mongodb://mongo.example.com:27017`                                                                        |
+| `NATS_CLUSTER_ID`                      | The name of the cluster, that contains all microservices.                                                                                                                               | `my-cluster`                                                                                               |
+| `NATS_GROUP`                           | The name of the pod group / Kubernetes deployment.                                                                                                                                      | `my-service-or-deployment`                                                                                 |
+| `NATS_URL`                             | The URL to the NATS server.                                                                                                                                                             | `http://my-nats-service:4222`                                                                              |
+| `POD_NAME`                             | The name of the pod. This should come as imported metadata from Kubernetes.                                                                                                             | `my-service-or-deployment-xcsgbxv`                                                                         |
 
 ### Diagnostics
 
@@ -202,6 +202,7 @@ Use `MongoDatabase` class, which has simple support to handle [MongoDB](https://
 import { MongoDatabase } from '@egomobile/microservices';
 
 const mongo = new MongoDatabase();
+await mongoDb.connect();
 
 // insert
 await mongo.insert('myCollection', [{
@@ -223,6 +224,8 @@ const docs = await mongo.find('myCollection', {
 const docsCount = await mongo.count('myCollection', {
     first_name: 'Marcel'
 });
+
+mongo.disconnect();
 ```
 
 ### NATS

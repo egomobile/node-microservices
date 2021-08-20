@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.51.0
+
+* add `connect` and `disconnect` docs
+
 ## 0.50.1
 
 * fix MongoDB options 
