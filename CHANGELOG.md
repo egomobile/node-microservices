@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.50.1
+
+* fix MongoDB options 
+
 ## 0.50.0
 
 * bring back MongoDB options
