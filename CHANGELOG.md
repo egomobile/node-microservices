@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.51.1
+
+* bump version
+
 ## 0.51.0
 
 * add `connect` and `disconnect` docs
