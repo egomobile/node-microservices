@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.52.0
+
+* add `p-queue` to nats listener, to battle concurrency in `onMessage` with `await`
+
 ## 0.51.1
 
 * bump version
