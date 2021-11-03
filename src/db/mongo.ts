@@ -48,14 +48,6 @@ export interface IMongoDatabaseOptions {
      * The URI.
      */
     url: string;
-    /**
-     * Use TLS.
-     */
-    isTls?: boolean;
-    /**
-     * Relax TLS constraints.
-     */
-    isTlsInsecure?: boolean;
 }
 
 /**
@@ -200,44 +192,31 @@ export class MongoDatabase {
         const MONGO_DB = process.env.MONGO_DB?.trim();
         const MONGO_IS_LAZY = process.env.MONGO_IS_LAZY?.toLowerCase().trim();
         const MONGO_URL = process.env.MONGO_URL?.trim();
-        const MONGO_TLS = process.env.MONGO_TLS?.toLowerCase().trim();
-        const MONGO_TLS_INSECURE = process.env.MONGO_TLS_INSECURE?.toLowerCase().trim();
 
         let isCosmosDB: boolean | undefined;
         let db: string | undefined;
         let url: string | undefined;
-        let isTls: boolean | undefined;
-        let isTlsInsecure: boolean | undefined;
         if (options) {
             isCosmosDB = options.isCosmosDB;
             db = options.db;
             url = options.url;
-            isTls = options.isTls;
-            isTlsInsecure = options.isTlsInsecure;
         } else {
             isCosmosDB = MONGO_IS_COSMOSDB === 'true';
             db = MONGO_DB;
             url = MONGO_URL;
-            isTls = MONGO_TLS?.length ? MONGO_TLS === 'true' : undefined;
-            isTlsInsecure = MONGO_TLS_INSECURE?.length ? MONGO_TLS_INSECURE === 'true' : undefined;
         }
 
         this.options = {
             db,
             isCosmosDB: !!isCosmosDB,
-            url,
-            isTls,
-            isTlsInsecure
+            url
         };
 
         if (MONGO_IS_LAZY !== 'true') {
             this.checkOptionsOrThrow();
         }
 
-        this.client = new MongoClient(process.env.MONGO_URL!, {
-            tls: this.options.isTls,
-            tlsInsecure: this.options.isTlsInsecure
-        });
+        this.client = new MongoClient(process.env.MONGO_URL!);
     }
 
     /**
