@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 0.53.0
+
+* remove `tls` options from `MongoDatabase`
+
 ## 0.52.0
 
 * add `p-queue` to nats listener, to battle concurrency in `onMessage` with `await`
