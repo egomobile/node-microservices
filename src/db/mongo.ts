@@ -350,7 +350,7 @@ export class MongoDatabase {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
-            return collection.find(filter, options)
+            return collection.find(filter as any, options)
                 .toArray() as Promise<T[]>;
         });
     }
