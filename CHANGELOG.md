@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 1.0.1
+
+* update mongodb package
+
 ## 1.0.0
 
 * remove `isCosmosDB` from `MongoDatabase`
