@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 1.0.0
+
+* remove `isCosmosDB` from `MongoDatabase`
+
 ## 0.53.0
 
 * remove `tls` options from `MongoDatabase`

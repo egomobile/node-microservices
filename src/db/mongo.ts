@@ -41,10 +41,6 @@ export interface IMongoDatabaseOptions {
      */
     db: string;
     /**
-     * Is Cosmos DB or not.
-     */
-    isCosmosDB?: boolean;
-    /**
      * The URI.
      */
     url: string;
@@ -188,27 +184,22 @@ export class MongoDatabase {
      * @param {IMongoDatabaseOptions} [options] Custom options.
      */
     constructor(options?: IMongoDatabaseOptions) {
-        const MONGO_IS_COSMOSDB = process.env.MONGO_IS_COSMOSDB?.toLowerCase().trim();
         const MONGO_DB = process.env.MONGO_DB?.trim();
         const MONGO_IS_LAZY = process.env.MONGO_IS_LAZY?.toLowerCase().trim();
         const MONGO_URL = process.env.MONGO_URL?.trim();
 
-        let isCosmosDB: boolean | undefined;
         let db: string | undefined;
         let url: string | undefined;
         if (options) {
-            isCosmosDB = options.isCosmosDB;
             db = options.db;
             url = options.url;
         } else {
-            isCosmosDB = MONGO_IS_COSMOSDB === 'true';
             db = MONGO_DB;
             url = MONGO_URL;
         }
 
         this.options = {
             db,
-            isCosmosDB: !!isCosmosDB,
             url
         };
 
@@ -257,18 +248,11 @@ export class MongoDatabase {
      *
      * @returns {Promise<number>} The promise with the number of documents.
      */
-    public async count<T = Document>(
+    public count<T = Document>(
         collectionName: string,
         filter?: Filter<T>,
         options?: CountDocumentsOptions
     ): Promise<number> {
-        if (this.options.isCosmosDB) {
-            // some versions of Cosmos DB instances
-            // do not support 'count()' operations
-            // so we have to do a 'find()' first
-            return (await this.find(collectionName, filter || {}, options)).length;
-        }
-
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection<T>(collectionName);
