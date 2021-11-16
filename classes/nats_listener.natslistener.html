@@ -108,7 +108,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nats_listener.natslistener.html#client" class="tsd-kind-icon">client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nats_listener.natslistener.html#groupname" class="tsd-kind-icon">group<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nats_listener.natslistener.html#onmessage" class="tsd-kind-icon">on<wbr>Message</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="nats_listener.natslistener.html#queue" class="tsd-kind-icon">queue</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nats_listener.natslistener.html#subject" class="tsd-kind-icon">subject</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nats_listener.natslistener.html#subscriptionoptions" class="tsd-kind-icon">subscription<wbr>Options</a></li>
 							</ul>
@@ -122,11 +121,9 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="nats_listener.natslistener.html#getonmessage" class="tsd-kind-icon">get<wbr>OnMessage</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="nats_listener.natslistener.html#handlesubscriptionmessage" class="tsd-kind-icon">handle<wbr>Subscription<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="nats_listener.natslistener.html#initsubscriptionoptions" class="tsd-kind-icon">init<wbr>Subscription<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="nats_listener.natslistener.html#listen" class="tsd-kind-icon">listen</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="nats_listener.natslistener.html#setqueuesize" class="tsd-kind-icon">set<wbr>Queue<wbr>Size</a></li>
 							</ul>
 						</section>
 					</div>
@@ -144,7 +141,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L62">src/nats/listener.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L59">src/nats/listener.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -183,7 +180,7 @@
 					<div class="tsd-signature tsd-kind-icon">auto<wbr>Ack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L92">src/nats/listener.ts:92</a></li>
+							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L88">src/nats/listener.ts:88</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -205,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">group<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L111">src/nats/listener.ts:111</a></li>
+							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L93">src/nats/listener.ts:93</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -220,7 +217,7 @@
 					<div class="tsd-signature tsd-kind-icon">on<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Nilable</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/nats_listener.html#onnatseventmessagehandler" class="tsd-signature-type" data-tsd-kind="Type alias">OnNatsEventMessageHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TEvent</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L198">src/nats/listener.ts:198</a></li>
+							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L180">src/nats/listener.ts:180</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -228,16 +225,6 @@
 							<p>Can be used to register a function, to receive event messages.</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="queue" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> queue</h3>
-					<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Nilable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">default</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">default</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">DefaultAddOptions</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L62">src/nats/listener.ts:62</a></li>
-						</ul>
-					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="subject" class="tsd-anchor"></a>
@@ -252,7 +239,7 @@
 					<div class="tsd-signature tsd-kind-icon">subscription<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SubscriptionOptions</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L230">src/nats/listener.ts:230</a></li>
+							<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L194">src/nats/listener.ts:194</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -274,7 +261,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L205">src/nats/listener.ts:205</a></li>
+									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L187">src/nats/listener.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -290,23 +277,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="getonmessage" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>OnMessage</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>OnMessage<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Nilable</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/nats_listener.html#onnatseventmessagehandler" class="tsd-signature-type" data-tsd-kind="Type alias">OnNatsEventMessageHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TEvent</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L94">src/nats/listener.ts:94</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Nilable</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/nats_listener.html#onnatseventmessagehandler" class="tsd-signature-type" data-tsd-kind="Type alias">OnNatsEventMessageHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TEvent</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="handlesubscriptionmessage" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> handle<wbr>Subscription<wbr>Message</h3>
@@ -317,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L118">src/nats/listener.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L100">src/nats/listener.ts:100</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +318,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L171">src/nats/listener.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L153">src/nats/listener.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,7 +349,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L183">src/nats/listener.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/18d0679/src/nats/listener.ts#L165">src/nats/listener.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,39 +359,6 @@
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Subscription</span></h4>
 							<p>The new subscription.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setqueuesize" class="tsd-anchor"></a>
-					<h3>set<wbr>Queue<wbr>Size</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Queue<wbr>Size<span class="tsd-signature-symbol">(</span>concurrency<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Nilable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="nats_listener.natslistener.html" class="tsd-signature-type" data-tsd-kind="Class">NatsListener</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TEvent</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/egomobile/node-microservices/blob/0055d69/src/nats/listener.ts#L217">src/nats/listener.ts:217</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets up the size of an internal concurrency queue.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>concurrency: <span class="tsd-signature-type">Nilable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The new size of the queue.
-										If the value is not a valid number, the queue is deactivated.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="nats_listener.natslistener.html" class="tsd-signature-type" data-tsd-kind="Class">NatsListener</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TEvent</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>this</p>
 						</li>
 					</ul>
 				</section>
@@ -460,9 +397,6 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="nats_listener.natslistener.html#onmessage" class="tsd-kind-icon">on<wbr>Message</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="nats_listener.natslistener.html#queue" class="tsd-kind-icon">queue</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="nats_listener.natslistener.html#subject" class="tsd-kind-icon">subject</a>
 							</li>
@@ -472,9 +406,6 @@
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="nats_listener.natslistener.html#stan" class="tsd-kind-icon">stan</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="nats_listener.natslistener.html#getonmessage" class="tsd-kind-icon">get<wbr>OnMessage</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="nats_listener.natslistener.html#handlesubscriptionmessage" class="tsd-kind-icon">handle<wbr>Subscription<wbr>Message</a>
 							</li>
@@ -483,9 +414,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="nats_listener.natslistener.html#listen" class="tsd-kind-icon">listen</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="nats_listener.natslistener.html#setqueuesize" class="tsd-kind-icon">set<wbr>Queue<wbr>Size</a>
 							</li>
 						</ul>
 					</li>
@@ -522,10 +450,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
