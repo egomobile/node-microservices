@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 1.1.0
+
+* remove p-queue from nats listener
+
 ## 1.0.1
 
 * update mongodb package
