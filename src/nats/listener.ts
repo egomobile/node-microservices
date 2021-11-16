@@ -21,8 +21,6 @@ import { Message, Stan, Subscription, SubscriptionOptions } from 'node-nats-stre
 import { NatsClient, stan } from './client';
 import { Nilable } from '@egomobile/types';
 
-import PQueue from 'p-queue';
-
 /**
  * Context for an 'onMessage' event.
  */
@@ -59,8 +57,6 @@ export type OnNatsEventMessageHandler<TEvent extends any = any> =
  * A NATS listener.
  */
 export class NatsListener<TEvent extends any = any> {
-    private queue: Nilable<PQueue>;
-
     /**
      * Initializes a new instance of that class.
      *
@@ -90,20 +86,6 @@ export class NatsListener<TEvent extends any = any> {
      * Do an automatic ack on each message event or not.
      */
     public autoAck = true;
-
-    private getOnMessage(): Nilable<OnNatsEventMessageHandler<TEvent>> {
-        const onMessage = this.onMessage;
-        if (onMessage) {
-            if (this.queue) {
-                const onMessageWithQueue: OnNatsEventMessageHandler<TEvent> =
-                    (context) => this.queue!.add(() => onMessage!(context));
-
-                return onMessageWithQueue;
-            }
-        }
-
-        return onMessage;
-    }
 
     /**
      * The NATS group.
@@ -138,7 +120,7 @@ export class NatsListener<TEvent extends any = any> {
         };
 
         try {
-            const onMessage = this.getOnMessage();
+            const onMessage = this.onMessage;
             if (onMessage) {
                 let message: any;
                 try {
@@ -204,24 +186,6 @@ export class NatsListener<TEvent extends any = any> {
      */
     public get stan(): Stan {
         return this.client.client;
-    }
-
-    /**
-     * Sets up the size of an internal concurrency queue.
-     *
-     * @param {number} concurrency The new size of the queue.
-     *                             If the value is not a valid number, the queue is deactivated.
-     *
-     * @returns {this} this
-     */
-    public setQueueSize(concurrency: Nilable<number>): this {
-        if (typeof concurrency === 'number') {
-            this.queue = new PQueue({ concurrency });;
-        } else {
-            this.queue = null;
-        }
-
-        return this;
     }
 
     /**
