@@ -1,5 +1,9 @@
 # Change Log (@egomobile/microservices)
 
+## 1.1.1
+
+* remove `MONGO_IS_COSMOSDB` from readme
+
 ## 1.1.0
 
 * remove p-queue from nats listener
