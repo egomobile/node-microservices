@@ -18,7 +18,7 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 import { MongoClient } from 'mongodb';
 
-import type { BulkWriteOptions, CountDocumentsOptions, CreateIndexesOptions, Db as MongoDb, DeleteOptions, DeleteResult, Document, Filter, FindOptions, IndexSpecification, InsertManyResult, InsertOneResult, MongoClient as MongoDBClient, UpdateFilter, UpdateOptions, UpdateResult } from 'mongodb';
+import type { BulkWriteOptions, CountDocumentsOptions, CreateIndexesOptions, Db as MongoDb, DeleteOptions, DeleteResult, Document, Filter, FindOptions, IndexSpecification, InsertManyResult, InsertOneResult, MongoClient as MongoDBClient, UpdateFilter, UpdateOptions, UpdateResult, WithId } from 'mongodb';
 
 /**
  * Options for 'createSingletonMongoProvider()' function.
@@ -248,7 +248,7 @@ export class MongoDatabase {
      *
      * @returns {Promise<number>} The promise with the number of documents.
      */
-    public count<T = Document>(
+    public count<T extends Document>(
         collectionName: string,
         filter?: Filter<T>,
         options?: CountDocumentsOptions
@@ -298,7 +298,7 @@ export class MongoDatabase {
      * @param {DeleteOptions} [options] Custom options.
      * @returns {Promise<DeleteResult>} The promise with the result.
      */
-    public deleteOne<T = Document>(collectionName: string, filter: Filter<T>, options?: DeleteOptions): Promise<DeleteResult> {
+    public deleteOne<T extends Document>(collectionName: string, filter: Filter<T>, options?: DeleteOptions): Promise<DeleteResult> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection<T>(collectionName);
@@ -319,7 +319,7 @@ export class MongoDatabase {
      * @param {DeleteOptions} [options] Custom options.
      * @returns {Promise<DeleteResult>} The promise with the result.
      */
-    public deleteMany<T = Document>(collectionName: string, filter: Filter<T>, options?: DeleteOptions): Promise<DeleteResult> {
+    public deleteMany<T extends Document>(collectionName: string, filter: Filter<T>, options?: DeleteOptions): Promise<DeleteResult> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection<T>(collectionName);
@@ -341,17 +341,17 @@ export class MongoDatabase {
      *
      * @returns {Promise<T[]>} The promise with the result.
      */
-    public find<T = IMongoSchema>(
+    public find<T extends IMongoSchema>(
         collectionName: string,
         filter: Filter<T>,
         options?: FindOptions<T>
-    ): Promise<T[]> {
+    ): Promise<WithId<T>[]> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
 
             return collection.find(filter as any, options)
-                .toArray() as Promise<T[]>;
+                .toArray() as Promise<WithId<T>[]>;
         });
     }
 
@@ -364,7 +364,7 @@ export class MongoDatabase {
      *
      * @returns {Promise<T|null>} The promise with the result or (null) if not found.
      */
-    public findOne<T = IMongoSchema>(
+    public findOne<T extends IMongoSchema>(
         collectionName: string,
         filter: Filter<T>,
         options?: FindOptions<T extends IMongoSchema ? IMongoSchema : T>
@@ -395,7 +395,7 @@ export class MongoDatabase {
      *
      * @returns {Promise<InsertManyResult<T>>} The promise with the result.
      */
-    public insertMany<T = IMongoSchema>(collectionName: string, docs: T[], options?: BulkWriteOptions): Promise<InsertManyResult<T>> {
+    public insertMany<T extends IMongoSchema>(collectionName: string, docs: T[], options?: BulkWriteOptions): Promise<InsertManyResult<T>> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
@@ -417,7 +417,7 @@ export class MongoDatabase {
      *
      * @returns {Promise<InsertManyResult<T>>} The promise with the result.
      */
-    public insertOne<T = IMongoSchema>(collectionName: string, doc: T, options?: BulkWriteOptions): Promise<InsertOneResult<T>> {
+    public insertOne<T extends IMongoSchema>(collectionName: string, doc: T, options?: BulkWriteOptions): Promise<InsertOneResult<T>> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection(collectionName);
@@ -439,7 +439,7 @@ export class MongoDatabase {
      * @param {UpdateManyOptions} [options] Custom options.
      * @returns {Promise<WriteOpResult>} The promise with the result.
      */
-    public updateMany<T = Document>(collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<Document | UpdateResult> {
+    public updateMany<T extends Document>(collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<Document | UpdateResult> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection<T>(collectionName);
@@ -461,7 +461,7 @@ export class MongoDatabase {
      * @param {UpdateOptions} [options] Custom options.
      * @returns {Promise<UpdateResult | Document>} The promise with the result.
      */
-    public updateOne<T = Document>(collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<UpdateResult | Document> {
+    public updateOne<T extends Document>(collectionName: string, filter: Filter<T>, update: UpdateFilter<T>, options?: UpdateOptions): Promise<UpdateResult | Document> {
         return this.withClient(client => {
             const db = client.db(this.options.db!);
             const collection = db.collection<T>(collectionName);
